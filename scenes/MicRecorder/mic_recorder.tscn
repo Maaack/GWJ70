@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwmlugkm4ancq"]
+
+[ext_resource type="Script" path="res://scenes/MicRecorder/mic_recorder.gd" id="1_xrsle"]
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_sg2lh"]
+
+[node name="MicRecorder" type="Node"]
+script = ExtResource("1_xrsle")
+
+[node name="AudioStreamRecorder" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamMicrophone_sg2lh")
+autoplay = true

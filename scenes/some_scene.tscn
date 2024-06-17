@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://1ll2hb4jqvyc"]
+
+[ext_resource type="Script" path="res://scenes/some_scene.gd" id="1_bfjwd"]
+[ext_resource type="PackedScene" uid="uid://dwmlugkm4ancq" path="res://scenes/MicRecorder/mic_recorder.tscn" id="1_vod8h"]
+[ext_resource type="PackedScene" uid="uid://cacmlvjd22f63" path="res://scenes/APIClient/ClientWrappers/submit_folklore.tscn" id="3_dvpk1"]
+[ext_resource type="PackedScene" uid="uid://c0k1dfksrc6br" path="res://scenes/APIClient/ClientWrappers/get_submit_url.tscn" id="4_3gs2g"]
+
+[node name="SomeScene" type="Node"]
+script = ExtResource("1_bfjwd")
+
+[node name="MicRecorder" parent="." instance=ExtResource("1_vod8h")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
+
+[node name="SubmitFolklore" parent="." instance=ExtResource("3_dvpk1")]
+
+[node name="GetSubmitURL" parent="." instance=ExtResource("4_3gs2g")]
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="recording_stopped" from="MicRecorder" to="." method="_on_mic_recorder_recording_stopped"]
+[connection signal="url_received" from="GetSubmitURL" to="." method="_on_get_submit_url_url_received"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

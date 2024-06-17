@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0k1dfksrc6br"]
+
+[ext_resource type="Script" path="res://scenes/APIClient/ClientWrappers/get_submit_url.gd" id="1_gmj8i"]
+[ext_resource type="PackedScene" uid="uid://choqn8khbb7rw" path="res://scenes/APIClient/api_client.tscn" id="1_qkddd"]
+
+[node name="GetSubmitURL" type="Node"]
+script = ExtResource("1_gmj8i")
+
+[node name="APIClient" parent="." instance=ExtResource("1_qkddd")]
+api_url = "https://0ys0761ple.execute-api.us-east-1.amazonaws.com/prod/get-submit-url"
+api_key_file = "res://API_KEY_SECRET.txt"
+
+[connection signal="request_failed" from="APIClient" to="." method="_on_api_client_request_failed"]
+[connection signal="response_received" from="APIClient" to="." method="_on_api_client_response_received"]

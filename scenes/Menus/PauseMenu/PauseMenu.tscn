@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfgijk40t2obj"]
+
+[ext_resource type="PackedScene" path="res://addons/maaacks_game_template/extras/scenes/PauseMenu/PauseMenu.tscn" id="1_10qlh"]
+[ext_resource type="Script" path="res://scenes/Menus/PauseMenu/PauseMenu.gd" id="2_5twki"]
+[ext_resource type="PackedScene" path="res://scenes/Menus/OptionsMenu/MiniOptionsMenuWithReset.tscn" id="3_x0pd8"]
+
+[node name="PauseMenu" instance=ExtResource("1_10qlh")]
+script = ExtResource("2_5twki")
+options_packed_scene = ExtResource("3_x0pd8")
+main_menu_scene = "res://scenes/Menus/MainMenu/MainMenuWithAnimations.tscn"
