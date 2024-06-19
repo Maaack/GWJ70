@@ -12,7 +12,7 @@ func generate_word(length):
 func _set_user_id() -> String:
 	randomize() # Should be call on run, but doing again for the sake of it.
 	var key = "UserID"
-	var default = generate_word(16)
+	var default = generate_word(32)
 	var user_id = Config.get_config(AppSettings.GAME_SECTION, key, default)
 	if user_id == default:
 		Config.set_config(AppSettings.GAME_SECTION, key, user_id)
