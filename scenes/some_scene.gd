@@ -2,6 +2,7 @@ extends Node
 
 var _audio_stream : AudioStreamWAV
 var _audio_key : String
+var _download_file_key : String
 
 func _on_mic_recorder_recording_stopped(audio_stream):
 	if audio_stream is AudioStreamWAV:
@@ -17,24 +18,19 @@ func _save_temporary_wav_file(file_path : String):
 
 func _send_file_data(file_data : PackedByteArray):
 	$GetSubmitURL.request_destination()
-	#$SubmitFolklore.send_audio(audio_data)
 
 func _get_audio_file_data():
 	var file_path = "user://temp_audio.wav"
-	# _save_temporary_wav_file(file_path)
+	_save_temporary_wav_file(file_path)
 
 	if FileAccess.file_exists(file_path):
 		return FileAccess.get_file_as_bytes(file_path)
 
 func _on_send_folklore():
-	var file_path = "user://temp_audio.wav"
-	# _save_temporary_wav_file(file_path)
+	$GetSubmitURL.request_destination()
 
-	if FileAccess.file_exists(file_path):
-		var audio_data = FileAccess.get_file_as_bytes(file_path)
-		_send_file_data(audio_data)
-	else:
-		push_error("Failed to locate the saved WAV file.")
+func _on_get_past_folklore():
+	$GetPastFolklore.get_past_folklore()
 
 func _input(event):
 	if event.is_action_pressed(&"playback"):
@@ -44,21 +40,60 @@ func _input(event):
 			$AudioStreamPlayer.play()
 	elif event.is_action_pressed(&"save"):
 		_on_send_folklore()
+	elif event.is_action_pressed(&"get"):
+		_on_get_past_folklore()
 
 func _on_get_submit_url_url_received(upload_url, audio_key):
 	# Use the pre-signed URL to upload the audio data
-	var request = $HTTPRequest
+	var request = $S3PutRequest
 	_audio_key = audio_key
 
 	var headers = ["Content-Type: audio/wav"]
-	print(upload_url)
 	var error = request.request_raw(upload_url, headers, HTTPClient.METHOD_PUT, _get_audio_file_data())
 	if error != OK:
 		push_error("Failed to initiate S3 upload. Error code: %d" % error)
 
-func _on_http_request_request_completed(result, response_code, headers, body : PackedByteArray):
+func _on_s_3_put_request_request_completed(result, response_code, headers, body):
 	if response_code != 200:
 		push_error("Failed to upload audio to S3. HTTP status code: %d ; body: %s" % [response_code, body.get_string_from_utf8()])
 		return
 
 	$SubmitFolklore.transcribe_folklore(_audio_key)
+
+func _on_get_past_folklore_url_received(download_url : String, transcription : String):
+		# Use the pre-signed URL to upload the audio data
+	var request = $S3GetRequest
+	_download_file_key = download_url.split("?", true, 1)[0].rsplit("/", true, 1)[1]
+	var file_path = "res://%s" % _download_file_key
+	if not FileAccess.file_exists(file_path): 
+		_play_downloaded_folklore()
+		return
+	var error = request.request_raw(download_url, Array(), HTTPClient.METHOD_GET, PackedByteArray())
+	if error != OK:
+		push_error("Failed to initiate S3 download. Error code: %d" % error)
+
+func _play_downloaded_folklore():
+	var file_path = "res://%s" % _download_file_key
+	if not FileAccess.file_exists(file_path): return
+	var audio_stream = load(file_path)
+	$AudioStreamPlayer.stream = audio_stream
+	$AudioStreamPlayer.play()
+	
+func _on_s_3_get_request_request_completed(result, response_code, headers, body):
+	if response_code == 200:
+		var file_path = "res://%s" % _download_file_key
+		if FileAccess.file_exists(file_path):
+			DirAccess.remove_absolute(file_path)
+		var file = FileAccess.open(file_path, FileAccess.WRITE)
+		var error = FileAccess.get_open_error()
+		if error != OK:
+			print("Failed to save the downloaded file %d" % error)
+			return
+		file.store_buffer(body)
+		file.close()
+		await(get_tree().create_timer(1).timeout)
+		_play_downloaded_folklore()
+
+	else:
+		push_error("Failed to download file, %d %s" % [response_code, body.get_string_from_utf8()])
+

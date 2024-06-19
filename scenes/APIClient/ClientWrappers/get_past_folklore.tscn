@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1iraws8mnyw6"]
+
+[ext_resource type="PackedScene" uid="uid://choqn8khbb7rw" path="res://scenes/APIClient/api_client.tscn" id="1_1n7ny"]
+[ext_resource type="Script" path="res://scenes/APIClient/ClientWrappers/get_past_folklore.gd" id="1_wfdfw"]
+
+[node name="GetPastFolklore" type="Node"]
+script = ExtResource("1_wfdfw")
+
+[node name="APIClient" parent="." instance=ExtResource("1_1n7ny")]
+api_url = "https://0ys0761ple.execute-api.us-east-1.amazonaws.com/prod/get-past-folklore"
+api_key_file = "res://API_KEY_SECRET.txt"
+
+[connection signal="response_received" from="APIClient" to="." method="_on_api_client_response_received"]

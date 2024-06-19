@@ -31,6 +31,10 @@ func get_api_user() -> String:
 func get_api_method() -> int:
 	return HTTPClient.METHOD_POST
 
+func mock_empty_body():
+	var form : Dictionary = {}
+	return JSON.stringify(form)
+
 func mock_request(body : String):
 	await(get_tree().create_timer(10.0).timeout)
 	on_request_completed(HTTPRequest.RESULT_SUCCESS, "200", [], body)
@@ -67,18 +71,16 @@ func on_request_completed(result, response_code, headers, body):
 	if result == HTTPRequest.RESULT_SUCCESS:
 		if body is PackedByteArray:
 			var body_string = body.get_string_from_utf8()
-			var json := JSON.new()
-			var error := json.parse(body_string)
-			if error != OK:
-				emit_signal("request_failed", "failed to parse json \"%s\", %s" % [body_string, json.get_error_message()])
-				return
-			var response = json.data
+			var response = JSON.parse_string(body_string)
 			if response.has("body"):
-				emit_signal("response_received", str(response["body"]))
+				var body_dict = JSON.parse_string(response["body"])
+				emit_signal("response_received", body_dict)
 			elif response.has("errorMessage"):
 				emit_signal("request_failed", str(response["errorMessage"]))
-		else:
-			emit_signal("response_received", body)
+				push_error(response["errorMessage"])
+		elif body is String:
+			var body_dict = JSON.parse_string(body)
+			emit_signal("response_received", body_dict)
 	else:
 		if body is PackedByteArray:
 			emit_signal("request_failed", body.get_string_from_utf8())
