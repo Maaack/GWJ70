@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://ckysjmc3dymx8"]
 
-[ext_resource type="PackedScene" path="res://scenes/Menus/MainMenu/MainMenu.tscn" id="1_770o8"]
+[ext_resource type="PackedScene" uid="uid://biuquh06gs01r" path="res://scenes/Menus/MainMenu/MainMenu.tscn" id="1_770o8"]
 [ext_resource type="Script" path="res://scenes/Menus/MainMenu/MainMenuWithAnimations.gd" id="2_na30h"]
 
 [sub_resource type="Animation" id="1"]
@@ -349,6 +349,7 @@ graph_offset = Vector2(-180.277, 49)
 
 [node name="MainMenu" instance=ExtResource("1_770o8")]
 script = ExtResource("2_na30h")
+game_scene_path = "res://scenes/some_scene.tscn"
 
 [node name="MenuAnimationPlayer" type="AnimationPlayer" parent="." index="1"]
 libraries = {

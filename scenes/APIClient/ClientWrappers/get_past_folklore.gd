@@ -3,7 +3,10 @@ extends Node
 signal url_received(url : String, transcription : String)
 
 func get_past_folklore():
-	var body = $APIClient.mock_empty_body()
+	var form : Dictionary = {
+		"user_id" : Config.get_config(AppSettings.GAME_SECTION, "UserID")
+	}
+	var body = JSON.stringify(form)
 	$APIClient.request(body)
 
 func _on_api_client_response_received(response_body):

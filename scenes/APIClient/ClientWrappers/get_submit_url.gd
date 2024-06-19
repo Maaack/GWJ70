@@ -3,7 +3,9 @@ extends Node
 signal url_received(upload_url : String, audio_key : String)
 
 func request_destination(parent : String = ""):
-	var form : Dictionary = {}
+	var form : Dictionary = {
+		"user_id" : Config.get_config(AppSettings.GAME_SECTION, "UserID")
+	}
 	if not parent.is_empty():
 		form['parent'] = parent
 	var body = JSON.stringify(form)

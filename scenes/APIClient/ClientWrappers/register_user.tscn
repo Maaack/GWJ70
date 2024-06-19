@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://l4lek8he168b"]
+
+[ext_resource type="Script" path="res://scenes/APIClient/ClientWrappers/register_user.gd" id="1_avuya"]
+[ext_resource type="PackedScene" uid="uid://choqn8khbb7rw" path="res://scenes/APIClient/api_client.tscn" id="1_bk4wq"]
+
+[node name="RegisterUser" type="Node"]
+script = ExtResource("1_avuya")
+
+[node name="APIClient" parent="." instance=ExtResource("1_bk4wq")]
+api_url = "https://0ys0761ple.execute-api.us-east-1.amazonaws.com/prod/register-user"
+api_key_file = "res://API_KEY_SECRET.txt"

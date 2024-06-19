@@ -2,6 +2,7 @@ extends Node
 
 func transcribe_folklore(s3_key):
 	var form : Dictionary = {
+		"user_id" : Config.get_config(AppSettings.GAME_SECTION, "UserID"),
 		"s3_key": s3_key
 	}
 	var body = JSON.stringify(form)
