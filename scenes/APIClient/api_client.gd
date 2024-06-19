@@ -72,12 +72,17 @@ func on_request_completed(result, response_code, headers, body):
 		if body is PackedByteArray:
 			var body_string = body.get_string_from_utf8()
 			var response = JSON.parse_string(body_string)
-			if response.has("body"):
-				var body_dict = JSON.parse_string(response["body"])
-				emit_signal("response_received", body_dict)
-			elif response.has("errorMessage"):
-				emit_signal("request_failed", str(response["errorMessage"]))
-				push_error(response["errorMessage"])
+			if not (response.has("statusCode") and response.has("body")): return
+			var response_body = response["body"]
+			var json = JSON.new()
+			var error = json.parse(response_body)
+			if error == OK:
+				response_body = json.data
+			if response["statusCode"] != 200:
+				push_error(response_body)
+				emit_signal("request_failed", response_body)
+			else:
+				emit_signal("response_received", response_body)
 		elif body is String:
 			var body_dict = JSON.parse_string(body)
 			emit_signal("response_received", body_dict)
