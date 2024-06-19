@@ -2,8 +2,11 @@ extends Node
 
 signal url_received(upload_url : String, audio_key : String)
 
-func request_destination():
-	var body = $APIClient.mock_empty_body()
+func request_destination(parent : String = ""):
+	var form : Dictionary = {}
+	if not parent.is_empty():
+		form['parent'] = parent
+	var body = JSON.stringify(form)
 	$APIClient.request(body)
 
 func _on_api_client_request_failed(error):

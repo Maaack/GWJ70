@@ -11,7 +11,10 @@ script = ExtResource("1_bfjwd")
 
 [node name="MicRecorder" parent="." instance=ExtResource("1_vod8h")]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="RecordedStreamPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
+
+[node name="FolkloreStreamPlayer" type="AudioStreamPlayer" parent="."]
 bus = &"SFX"
 
 [node name="SubmitFolklore" parent="." instance=ExtResource("3_dvpk1")]
