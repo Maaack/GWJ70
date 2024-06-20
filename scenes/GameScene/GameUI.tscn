@@ -54,13 +54,20 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="UserStatusLabel" type="Label" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="UserStatusLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Loading..."
 horizontal_alignment = 1
 
-[node name="WaitingUI" parent="MarginContainer" instance=ExtResource("7_croxm")]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="WaitingUI" parent="MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("7_croxm")]
 unique_name_in_owner = true
 layout_mode = 2
 
