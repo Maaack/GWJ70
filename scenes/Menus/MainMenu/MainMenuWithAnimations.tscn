@@ -349,7 +349,6 @@ graph_offset = Vector2(-180.277, 49)
 
 [node name="MainMenu" instance=ExtResource("1_770o8")]
 script = ExtResource("2_na30h")
-game_scene_path = "res://scenes/some_scene.tscn"
 
 [node name="MenuAnimationPlayer" type="AnimationPlayer" parent="." index="1"]
 libraries = {
