@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bln7r05amaiqf"]
+
+[ext_resource type="Script" path="res://scenes/APIClient/ClientWrappers/get_folklore_user.gd" id="1_hv4xr"]
+[ext_resource type="PackedScene" uid="uid://choqn8khbb7rw" path="res://scenes/APIClient/api_client.tscn" id="1_mfyfj"]
+
+[node name="GetFolkloreUser" type="Node"]
+script = ExtResource("1_hv4xr")
+
+[node name="APIClient" parent="." instance=ExtResource("1_mfyfj")]
+api_url = "https://0ys0761ple.execute-api.us-east-1.amazonaws.com/prod/get-user"
+api_key_file = "res://API_KEY_SECRET.txt"
+
+[connection signal="response_received" from="APIClient" to="." method="_on_api_client_response_received"]
