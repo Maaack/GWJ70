@@ -5,7 +5,13 @@ signal request_failed(error)
 
 @export var api_url : String
 @export_file("*.txt") var api_key_file : String
+## Time in seconds before the request fails due to timeout.
+@export var reqeuest_timeout : float = 30.0
+
 @onready var _http_request = $HTTPRequest
+@onready var _timeout_timer = $TimeoutTimer
+
+var timed_out : bool = false
 
 func get_http_request():
 	return _http_request
@@ -37,7 +43,7 @@ func mock_empty_body():
 
 func mock_request(body : String):
 	await(get_tree().create_timer(10.0).timeout)
-	on_request_completed(HTTPRequest.RESULT_SUCCESS, "200", [], body)
+	_on_request_completed(HTTPRequest.RESULT_SUCCESS, "200", [], body)
 
 func request(body : String, request_headers : Array = []):
 	var local_http_request : HTTPRequest = get_http_request()
@@ -51,7 +57,9 @@ func request(body : String, request_headers : Array = []):
 		request_headers.append("x-api-key: %s" % key)
 	var error = local_http_request.request(url, request_headers, method, body)
 	if error != OK:
+		emit_signal("request_failed", "An error occurred in the request.")
 		push_error("An error occurred in the HTTP request. %d" % error)
+	_timeout_timer.start(reqeuest_timeout)
 
 func request_raw(data : PackedByteArray, request_headers : Array = []):
 	var local_http_request : HTTPRequest = get_http_request()
@@ -65,9 +73,14 @@ func request_raw(data : PackedByteArray, request_headers : Array = []):
 		request_headers.append("x-api-key: %s" % key)
 	var error = local_http_request.request_raw(url, request_headers, method, data)
 	if error != OK:
+		emit_signal("request_failed", "An error occurred in the request.")
 		push_error("An error occurred in the HTTP request. %d" % error)
+	_timeout_timer.start(reqeuest_timeout)
 
-func on_request_completed(result, response_code, headers, body):
+func _on_request_completed(result, response_code, headers, body):
+	# If already timed out on client-side, then return.
+	if timed_out: return
+	_timeout_timer.stop()
 	if result == HTTPRequest.RESULT_SUCCESS:
 		if body is PackedByteArray:
 			var body_string = body.get_string_from_utf8()
@@ -79,8 +92,8 @@ func on_request_completed(result, response_code, headers, body):
 			if error == OK:
 				response_body = json.data
 			if response["statusCode"] != 200:
-				push_error(response_body)
 				emit_signal("request_failed", response_body)
+				push_error(response_body)
 			else:
 				emit_signal("response_received", response_body)
 		elif body is String:
@@ -92,4 +105,9 @@ func on_request_completed(result, response_code, headers, body):
 		push_error(result)
 
 func _on_http_request_request_completed(result, response_code, headers, body):
-	on_request_completed(result, response_code, headers, body)
+	_on_request_completed(result, response_code, headers, body)
+
+func _on_timeout_timer_timeout():
+	timed_out = true
+	emit_signal(&"request_failed", "Request timed out.")
+	push_warning("Request timed out on the client-side.")

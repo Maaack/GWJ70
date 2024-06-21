@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b63j2whpssqxh"]
+[gd_scene load_steps=9 format=3 uid="uid://b63j2whpssqxh"]
 
 [ext_resource type="Script" path="res://scenes/GameScene/GameUI.gd" id="1_c3jsp"]
 [ext_resource type="Script" path="res://addons/maaacks_game_template/extras/scripts/PauseMenuController.gd" id="4_0ixpy"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bln7r05amaiqf" path="res://scenes/APIClient/ClientWrappers/get_folklore_user.tscn" id="6_378mr"]
 [ext_resource type="PackedScene" uid="uid://be3jge8uh3oxi" path="res://scenes/WaitingUI/waiting_ui.tscn" id="7_croxm"]
 [ext_resource type="PackedScene" uid="uid://bkcsjsk2ciff" path="res://addons/maaacks_game_template/base/scenes/MusicPlayers/BackgroundMusicPlayer.tscn" id="7_qgrjs"]
+[ext_resource type="PackedScene" uid="uid://bt06t2v6h5xn5" path="res://scenes/ListeningUI/listening_ui.tscn" id="8_n4jhp"]
 [ext_resource type="Script" path="res://scenes/GameScene/ConfigurableSubViewport.gd" id="9_xb0xc"]
 
 [node name="GameUI" type="Control"]
@@ -69,6 +70,12 @@ size_flags_vertical = 3
 
 [node name="WaitingUI" parent="MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("7_croxm")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
+
+[node name="ListeningUI" parent="MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("8_n4jhp")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
 
 [connection signal="user_received" from="GetFolkloreUser" to="." method="_on_get_folklore_user_user_received"]

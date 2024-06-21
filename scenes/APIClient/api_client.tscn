@@ -7,4 +7,8 @@ script = ExtResource("1_l2mfn")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
+[node name="TimeoutTimer" type="Timer" parent="."]
+wait_time = 30.0
+
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
+[connection signal="timeout" from="TimeoutTimer" to="." method="_on_timeout_timer_timeout"]

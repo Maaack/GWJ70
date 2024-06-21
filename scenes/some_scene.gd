@@ -28,7 +28,7 @@ func _on_retell_folklore():
 	$GetSubmitURL.request_destination(_folklore_audio_key)
 
 func _on_get_past_folklore():
-	$GetPastFolklore.get_past_folklore()
+	$GetPastFolklore.request()
 
 func _input(event):
 	if event.is_action_pressed(&"playback"):
