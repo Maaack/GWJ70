@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://bt06t2v6h5xn5"]
+
+[ext_resource type="Script" path="res://scenes/ListeningUI/listening_ui.gd" id="1_bsu76"]
+[ext_resource type="PackedScene" uid="uid://v40couwff1ho" path="res://scenes/ListeningUI/past_folklore.tscn" id="1_mxdjn"]
+[ext_resource type="PackedScene" uid="uid://bbh4cgmuvmslu" path="res://scenes/AudioPlayer/audio_player.tscn" id="3_h4m3b"]
+
+[node name="ListeningUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bsu76")
+past_folklore_scene = ExtResource("1_mxdjn")
+past_folklore_data = [null, null, null]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PastFolkloreContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FolkloreTranscriptLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+
+[node name="AudioPlayer" parent="HBoxContainer/VBoxContainer2" instance=ExtResource("3_h4m3b")]
+unique_name_in_owner = true
+layout_mode = 2
