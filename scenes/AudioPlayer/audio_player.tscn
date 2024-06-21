@@ -1,0 +1,66 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbh4cgmuvmslu"]
+
+[ext_resource type="Texture2D" uid="uid://c0ehfscdtxmk" path="res://assets/images/play-button.png" id="1_60ptm"]
+[ext_resource type="Script" path="res://scenes/AudioPlayer/audio_player.gd" id="1_o0tvw"]
+[ext_resource type="Texture2D" uid="uid://b1qldtncv21wa" path="res://assets/images/pause-button.png" id="2_fly5r"]
+[ext_resource type="Texture2D" uid="uid://b2cfhdoskpksy" path="res://assets/images/plain-square.png" id="3_4lkoe"]
+
+[node name="AudioPlayer" type="Control"]
+custom_minimum_size = Vector2(300, 64)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_o0tvw")
+current_state = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="AudioPlayerControls" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/AudioPlayerControls"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+show_percentage = false
+
+[node name="PlayButton" type="TextureButton" parent="MarginContainer/AudioPlayerControls"]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = ExtResource("1_60ptm")
+stretch_mode = 5
+
+[node name="PauseButton" type="TextureButton" parent="MarginContainer/AudioPlayerControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+texture_normal = ExtResource("2_fly5r")
+stretch_mode = 5
+
+[node name="StopButton" type="TextureButton" parent="MarginContainer/AudioPlayerControls"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+texture_normal = ExtResource("3_4lkoe")
+stretch_mode = 5
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="pressed" from="MarginContainer/AudioPlayerControls/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/AudioPlayerControls/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="MarginContainer/AudioPlayerControls/StopButton" to="." method="_on_stop_button_pressed"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
