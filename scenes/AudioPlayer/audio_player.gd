@@ -22,6 +22,7 @@ enum UIStates{
 @export var audio_stream : AudioStream :
 	set(value):
 		audio_stream = value
+		_stream_length = audio_stream.get_length()
 		if audio_stream:
 			if current_state == UIStates.DISABLED:
 				current_state = UIStates.STOPPED
@@ -29,6 +30,9 @@ enum UIStates{
 			$AudioStreamPlayer.stream = audio_stream
 
 @onready var audio_stream_player = $AudioStreamPlayer
+@onready var audio_progress_bar = %AudioProgressBar
+
+var _stream_length : float
 
 func _refresh_object_visiblity():
 	if not is_inside_tree(): return
@@ -62,8 +66,9 @@ func pause():
 
 func stop():
 	if current_state in [UIStates.PLAYING, UIStates.PAUSED]:
-		current_state = UIStates.STOPPED
 		audio_stream_player.stop()
+		current_state = UIStates.STOPPED
+		audio_progress_bar.value = 0.0
 		playback_stopped.emit()
 
 func play():
@@ -77,6 +82,7 @@ func play():
 
 func _completed():
 	current_state = UIStates.STOPPED
+	audio_progress_bar.value = 0.0
 	playback_completed.emit()
 
 func _on_pause_button_pressed():
@@ -93,3 +99,8 @@ func _on_audio_stream_player_finished():
 
 func ready():
 	current_state = current_state
+
+func _process(_delta):
+	if current_state == UIStates.PLAYING:
+		var ratio = audio_stream_player.get_playback_position() / _stream_length
+		audio_progress_bar.value = ratio
