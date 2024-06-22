@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://5p0rvubta6hh"]
+
+[ext_resource type="Script" path="res://scenes/TimeProgressBar/time_progress_bar.gd" id="1_lhali"]
+
+[node name="TimeProgressBar" type="ProgressBar"]
+custom_minimum_size = Vector2(300, 12)
+size_flags_horizontal = 4
+size_flags_vertical = 8
+max_value = 1.0
+step = 0.001
+show_percentage = false
+script = ExtResource("1_lhali")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

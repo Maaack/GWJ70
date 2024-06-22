@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://b63j2whpssqxh"]
+[gd_scene load_steps=11 format=3 uid="uid://b63j2whpssqxh"]
 
 [ext_resource type="Script" path="res://scenes/GameScene/GameUI.gd" id="1_c3jsp"]
 [ext_resource type="Script" path="res://addons/maaacks_game_template/extras/scripts/PauseMenuController.gd" id="4_0ixpy"]
 [ext_resource type="PackedScene" uid="uid://bfgijk40t2obj" path="res://scenes/Menus/PauseMenu/PauseMenu.tscn" id="5_t6i6f"]
 [ext_resource type="PackedScene" uid="uid://bln7r05amaiqf" path="res://scenes/APIClient/ClientWrappers/get_folklore_user.tscn" id="6_378mr"]
 [ext_resource type="PackedScene" uid="uid://be3jge8uh3oxi" path="res://scenes/WaitingUI/waiting_ui.tscn" id="7_croxm"]
+[ext_resource type="PackedScene" uid="uid://5p0rvubta6hh" path="res://scenes/TimeProgressBar/time_progress_bar.tscn" id="7_mo3h3"]
 [ext_resource type="PackedScene" uid="uid://bkcsjsk2ciff" path="res://addons/maaacks_game_template/base/scenes/MusicPlayers/BackgroundMusicPlayer.tscn" id="7_qgrjs"]
 [ext_resource type="PackedScene" uid="uid://bt06t2v6h5xn5" path="res://scenes/ListeningUI/listening_ui.tscn" id="8_n4jhp"]
 [ext_resource type="PackedScene" uid="uid://co8yjdq0dl1d8" path="res://scenes/NamingUI/naming_ui.tscn" id="9_vd71b"]
@@ -65,6 +66,11 @@ layout_mode = 2
 text = "Loading..."
 horizontal_alignment = 1
 
+[node name="RequestProgressBar" parent="MarginContainer/VBoxContainer" instance=ExtResource("7_mo3h3")]
+unique_name_in_owner = true
+layout_mode = 2
+time = 10.0
+
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -86,5 +92,6 @@ visible = false
 layout_mode = 2
 
 [connection signal="user_received" from="GetFolkloreUser" to="." method="_on_get_folklore_user_user_received"]
+[connection signal="timed_out" from="MarginContainer/VBoxContainer/RequestProgressBar" to="." method="_on_time_progress_bar_timed_out"]
 [connection signal="folklore_submitted" from="MarginContainer/VBoxContainer/VBoxContainer/ListeningUI" to="." method="_on_listening_ui_folklore_submitted"]
 [connection signal="name_updated" from="MarginContainer/VBoxContainer/VBoxContainer/NamingUI" to="." method="_on_naming_ui_name_updated"]

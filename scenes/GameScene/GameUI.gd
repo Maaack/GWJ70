@@ -8,11 +8,15 @@ const INTRODUCED_STATUS = "Introduced"
 var _user_status : String
 var _user_folklore : Array
 
+var _connect_attempts : int = 0
+
 func _ready():
 	InGameMenuController.scene_tree = get_tree()
 	$GetFolkloreUser.request()
+	%RequestProgressBar.start()
 
 func _on_get_folklore_user_user_received(user_status, user_name, folklore_accepted, folklore):
+	%RequestProgressBar.stop()
 	_user_status = user_status
 	_user_folklore = folklore
 	%WaitingUI.folklore_data = _user_folklore
@@ -34,6 +38,7 @@ func _on_get_folklore_user_user_received(user_status, user_name, folklore_accept
 func _on_naming_ui_name_updated():
 	%NamingUI.hide()
 	$GetFolkloreUser.request()
+	%RequestProgressBar.start()
 
 func _unhandled_key_input(event):
 	if event.is_action_pressed(&"hard_reset"):
@@ -41,3 +46,13 @@ func _unhandled_key_input(event):
 
 func _on_listening_ui_folklore_submitted():
 	%WaitingUI.show()
+
+
+func _on_time_progress_bar_timed_out():
+	$GetFolkloreUser.request()
+	%RequestProgressBar.start()
+	var label_text : String = "Trying again"
+	_connect_attempts += 1
+	if _connect_attempts > 1:
+		label_text += " (%d)" % _connect_attempts
+	%UserStatusLabel.text = label_text
