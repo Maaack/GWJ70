@@ -1,6 +1,6 @@
 extends Node
 
-signal url_received(url : String, file_key : String, story_name : String, author_name : String, transcript : String)
+signal url_received(url : String, file_key : String, story_title : String, author_name : String, transcript : String)
 signal request_failed
 
 func request(exclude_files : Array = []):

@@ -1,6 +1,6 @@
 extends Node
 
-signal folklore_queued(audio_stream : AudioStream, story_name : String, author_name : String, transcript : String)
+signal folklore_queued(file_key : String, audio_stream : AudioStreamWAV, story_title : String, author_name : String, transcript : String)
 
 @export var buttons_container : Container
 @export var slots_available : int
@@ -20,8 +20,8 @@ func _build_list():
 	for data_row in data:
 		var button_instance := Button.new()
 		button_instance.text = "Wait"
-		if data_row.has(&"story_name") and data_row.has(&"author_name"):
-			button_instance.text = "%s by %s" % [data_row[&"story_name"], data_row[&"author_name"]]
+		if data_row.has(&"story_title") and data_row.has(&"author_name"):
+			button_instance.text = "%s by %s" % [data_row[&"story_title"], data_row[&"author_name"]]
 		elif empty_to_listen:
 			empty_to_listen = false
 			button_instance.text = "Listen..."
@@ -56,7 +56,7 @@ func _play_folklore(data_index : int):
 	var audio_stream := _get_past_folklore_audio_stream(data_row[&"audio_file_path"])
 	if not audio_stream:
 		audio_stream = AudioStreamWAV.new()
-	folklore_queued.emit(audio_stream, data_row[&"story_name"], data_row[&"author_name"], data_row[&"transcript"])
+	folklore_queued.emit(data_row[&"file_name"], audio_stream, data_row[&"story_title"], data_row[&"author_name"], data_row[&"transcript"])
 
 func _on_past_folklore_button_pressed(button_instance, data_iter):
 	var past_folklore : Dictionary = data[data_iter]
@@ -78,18 +78,18 @@ func _get_existing_file_names() -> Array[String]:
 			existing_file_names.append(data_row[&"file_name"])
 	return existing_file_names
 
-func _on_get_past_folklore_url_received(download_url : String, file_key : String, story_name : String, author_name : String, transcript : String):
+func _on_get_past_folklore_url_received(download_url : String, file_key : String, story_title : String, author_name : String, transcript : String):
 	var data_row = data[_requested_folklore_iter]
 	data_row[&"download_url"] = download_url
 	data_row[&"transcript"] = transcript
 	data_row[&"file_name"] = file_key
 	data_row[&"audio_file_path"] = "user://%s" % file_key.get_file()
-	data_row[&"story_name"] = story_name
+	data_row[&"story_title"] = story_title
 	data_row[&"author_name"] = author_name
 	_update_persistent_setting()
 	var button_child : Button = buttons_container.get_child(_requested_folklore_iter)
 	if button_child:
-		button_child.text = "%s by %s" % [data_row[&"story_name"], data_row[&"author_name"]]
+		button_child.text = "%s by %s" % [data_row[&"story_title"], data_row[&"author_name"]]
 	if FileAccess.file_exists(data_row[&"audio_file_path"]):
 		_reset_download_button_state()
 		_play_folklore(_requested_folklore_iter)
