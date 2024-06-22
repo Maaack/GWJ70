@@ -29,6 +29,7 @@ enum UIStates{
 	set(value):
 		audio_stream = value
 		_stream_length = audio_stream.get_length()
+		if _stream_length == 0: return
 		if audio_stream:
 			if current_state == UIStates.DISABLED:
 				current_state = UIStates.STOPPED
@@ -107,6 +108,9 @@ func force_play():
 	play()
 
 func play():
+	if _stream_length == 0:
+		playback_completed.emit()
+		return
 	if current_state in [UIStates.STOPPED, UIStates.PAUSED]:
 		current_state = UIStates.PLAYING
 		if audio_stream_player.stream_paused:

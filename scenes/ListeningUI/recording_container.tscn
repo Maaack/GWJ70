@@ -18,7 +18,8 @@ layout_mode = 2
 size_flags_horizontal = 0
 text = "Go Back"
 
-[node name="RetellingLabel" type="Label" parent="."]
+[node name="ActionLabel" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Retelling"
 
@@ -47,15 +48,6 @@ theme_override_font_sizes/font_size = 32
 placeholder_text = "Title"
 alignment = 1
 
-[node name="InstructionsLabel" type="Label" parent="."]
-layout_mode = 2
-text = "Now retell the story in your own words.
-
-Use your microphone. Please try to reduce background noise, speak clearly, and in English.
-
-Stories must be less than 3 minutes long."
-horizontal_alignment = 1
-
 [node name="Spacer" type="Control" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
@@ -65,6 +57,19 @@ layout_mode = 2
 recording_enabled = true
 
 [node name="Spacer2" type="Control" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InstructionsLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Tell or retell the story in your own words.
+
+Use your microphone. Please try to reduce background noise, speak clearly, and in English.
+
+Stories must be less than 3 minutes long."
+horizontal_alignment = 1
+
+[node name="Spacer3" type="Control" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
 

@@ -48,6 +48,7 @@ stretch_mode = 5
 
 [node name="PlayButton" type="TextureButton" parent="MarginContainer/VBoxContainer/AudioPlayerControls"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("1_60ptm")
 stretch_mode = 5

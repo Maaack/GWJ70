@@ -4,6 +4,7 @@ signal folklore_queued(file_key : String, audio_stream : AudioStreamWAV, story_t
 
 @export var buttons_container : Container
 @export var slots_available : int
+@export var custom_slot_available : bool = false
 
 var data : Array = []
 
@@ -33,6 +34,12 @@ func _build_list():
 			button_instance.connect(&"pressed", _on_past_folklore_button_pressed.bind(button_instance, data_iter))
 		buttons_container.add_child.call_deferred(button_instance)
 		data_iter += 1
+	if custom_slot_available:
+		var button_instance := Button.new()
+		button_instance.text = "Share Your Own..."
+		if button_instance.has_signal(&"pressed"):
+			button_instance.connect(&"pressed", _on_share_custom_button_pressed)
+		buttons_container.add_child.call_deferred(button_instance)
 
 func _refresh_list():
 	_clear_list()
@@ -59,6 +66,14 @@ func _play_folklore(data_index : int):
 	if not audio_stream:
 		audio_stream = AudioStreamWAV.new()
 	folklore_queued.emit(data_row[&"file_name"], audio_stream, data_row[&"story_title"], data_row[&"author_name"], data_row[&"transcript"])
+
+func _create_folklore():
+	var audio_stream = AudioStreamWAV.new()
+	folklore_queued.emit("", audio_stream, "", "", "Share your own story with the community of listeners.")
+
+func _on_share_custom_button_pressed():
+	_create_folklore()
+
 
 func _on_past_folklore_button_pressed(button_instance, data_iter):
 	var past_folklore : Dictionary = data[data_iter]

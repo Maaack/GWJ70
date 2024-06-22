@@ -9,8 +9,14 @@ var story_title : String :
 	set(value):
 		story_title = value
 		if is_inside_tree():
-			%StoryTitleLabel.text = story_title
-			%StoryTitleEdit.text = story_title
+			if story_title.is_empty():
+				%ActionLabel.text = "Sharing"
+				%StoryTitleLabel.text = "A New Story..."
+				%StoryTitleEdit.text = ""
+			else:
+				%ActionLabel.text = "Retelling"
+				%StoryTitleLabel.text = story_title
+				%StoryTitleEdit.text = story_title
 
 var author_name : String :
 	set(value):
