@@ -48,6 +48,9 @@ var _stream_length : float
 
 var record_effect: AudioEffect
 
+func has_stream() -> bool:
+	return audio_stream != null
+
 func _refresh_object_visiblity():
 	if not is_inside_tree(): return
 	match(current_state):
@@ -64,13 +67,13 @@ func _refresh_object_visiblity():
 			%StopButton.disabled = false
 			%RecordButton.hide()
 		UIStates.STOPPED:
-			%PlayButton.show()
+			%PlayButton.visible = has_stream()
 			%PauseButton.hide()
 			%StopButton.show()
 			%StopButton.disabled = true
 			%RecordButton.visible = recording_enabled
 		UIStates.PAUSED:
-			%PlayButton.show()
+			%PlayButton.visible = has_stream()
 			%PauseButton.hide()
 			%StopButton.show()
 			%StopButton.disabled = false
@@ -90,11 +93,11 @@ func pause():
 func stop():
 	if current_state in [UIStates.PLAYING, UIStates.PAUSED, UIStates.RECORDING]:
 		audio_stream_player.stop()
-		current_state = UIStates.STOPPED
 		audio_progress_bar.value = 0.0
 		if record_effect.is_recording_active():
 			_stop_recording()
 		else:
+			current_state = UIStates.STOPPED
 			playback_stopped.emit()
 
 func play():
@@ -114,6 +117,7 @@ func _completed():
 func _start_recording():
 	if record_effect.is_recording_active(): return
 	record_effect.set_recording_active(true)
+	current_state = UIStates.RECORDING
 	recording_started.emit()
 
 func _stop_recording():
@@ -124,6 +128,7 @@ func _stop_recording():
 	recorded_audio_stream.set_format(AudioStreamWAV.FORMAT_16_BITS)
 	recorded_audio_stream.set_stereo(stereo)
 	audio_stream = recorded_audio_stream
+	current_state = UIStates.STOPPED
 	recording_stopped.emit(recorded_audio_stream)
 
 func toggle_recording():
@@ -134,7 +139,6 @@ func toggle_recording():
 
 func record():
 	if current_state in [UIStates.STOPPED, UIStates.PAUSED]:
-		current_state = UIStates.RECORDING
 		_start_recording()
 
 func _on_record_button_pressed():
