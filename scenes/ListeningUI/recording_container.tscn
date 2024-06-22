@@ -18,6 +18,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="GoBackButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Go Back"
+
 [node name="RetellingLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Retelling"
@@ -54,18 +59,14 @@ size_flags_vertical = 3
 layout_mode = 2
 recording_enabled = true
 
-[node name="SubmitButton" type="Button" parent="VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Submit Story"
-
 [node name="Spacer2" type="Control" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="GoBackButton" type="Button" parent="."]
+[node name="SubmitButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Go Back"
+text = "Submit Story"
 
 [node name="GetSubmitURL" parent="." instance=ExtResource("3_k6g3s")]
 
@@ -78,9 +79,9 @@ Are you sure you want to go back?"
 
 [node name="SubmitFolklore" parent="." instance=ExtResource("4_se33b")]
 
+[connection signal="pressed" from="VBoxContainer/GoBackButton" to="." method="_on_go_back_button_pressed"]
 [connection signal="recording_stopped" from="VBoxContainer/AudioPlayer" to="." method="_on_audio_player_recording_stopped"]
 [connection signal="pressed" from="VBoxContainer/SubmitButton" to="." method="_on_submit_button_pressed"]
-[connection signal="pressed" from="GoBackButton" to="." method="_on_go_back_button_pressed"]
 [connection signal="url_received" from="GetSubmitURL" to="." method="_on_get_submit_url_url_received"]
 [connection signal="canceled" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_canceled"]
 [connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
