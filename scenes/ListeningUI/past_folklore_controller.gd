@@ -131,7 +131,8 @@ func _update_persistent_setting():
 func _on_get_past_folklore_request_failed():
 	var button_child : Button = buttons_container.get_child(_requested_folklore_iter)
 	if button_child:
-		button_child.disabled = false
+		button_child.text = "Try again later..."
+		button_child.disabled = true
 	_requesting_folklore = false
 
 func mark_folklore_submitted(file_key):
