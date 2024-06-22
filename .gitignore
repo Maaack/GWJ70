@@ -2,5 +2,7 @@
 .godot/
 
 addons/
+exports/
+export_presets.cfg
 
 *SECRET*.*
