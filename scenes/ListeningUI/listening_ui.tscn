@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bt06t2v6h5xn5"]
 
 [ext_resource type="Script" path="res://scenes/ListeningUI/listening_ui.gd" id="1_bsu76"]
-[ext_resource type="PackedScene" uid="uid://v40couwff1ho" path="res://scenes/ListeningUI/past_folklore.tscn" id="1_mxdjn"]
 [ext_resource type="PackedScene" uid="uid://bbh4cgmuvmslu" path="res://scenes/AudioPlayer/audio_player.tscn" id="3_h4m3b"]
+[ext_resource type="PackedScene" uid="uid://vsylh228amtl" path="res://scenes/ListeningUI/past_folklore_controller.tscn" id="4_ks25v"]
 
 [node name="ListeningUI" type="Control"]
 layout_mode = 3
@@ -12,8 +12,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bsu76")
-past_folklore_scene = ExtResource("1_mxdjn")
-past_folklore_data = [null, null, null]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -50,3 +48,9 @@ bbcode_enabled = true
 [node name="AudioPlayer" parent="HBoxContainer/VBoxContainer2" instance=ExtResource("3_h4m3b")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="PastFolkloreController" parent="." node_paths=PackedStringArray("buttons_container") instance=ExtResource("4_ks25v")]
+buttons_container = NodePath("../HBoxContainer/VBoxContainer/PastFolkloreContainer")
+slots_available = 3
+
+[connection signal="folklore_queued" from="PastFolkloreController" to="." method="_on_past_folklore_controller_folklore_queued"]

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://vsylh228amtl"]
+
+[ext_resource type="Script" path="res://scenes/ListeningUI/past_folklore_controller.gd" id="1_nwik4"]
+[ext_resource type="PackedScene" uid="uid://d1iraws8mnyw6" path="res://scenes/APIClient/ClientWrappers/get_past_folklore.tscn" id="2_rwu0g"]
+
+[node name="PastFolkloreController" type="Node"]
+script = ExtResource("1_nwik4")
+
+[node name="GetPastFolklore" parent="." instance=ExtResource("2_rwu0g")]
+
+[node name="S3GetRequest" type="HTTPRequest" parent="."]
+
+[connection signal="request_failed" from="GetPastFolklore" to="." method="_on_get_past_folklore_request_failed"]
+[connection signal="url_received" from="GetPastFolklore" to="." method="_on_get_past_folklore_url_received"]
+[connection signal="request_completed" from="S3GetRequest" to="." method="_on_s_3_get_request_request_completed"]
