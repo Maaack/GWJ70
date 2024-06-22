@@ -28,4 +28,5 @@ func _on_recording_container_return_confirmed():
 	%RecordingContainer.hide()
 
 func _on_recording_container_folklore_submitted():
+	$PastFolkloreController.mark_folklore_submitted(%RecordingContainer.parent_file_key)
 	folklore_submitted.emit()

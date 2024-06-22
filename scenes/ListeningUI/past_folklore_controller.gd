@@ -22,6 +22,8 @@ func _build_list():
 		button_instance.text = "Wait"
 		if data_row.has(&"story_title") and data_row.has(&"author_name"):
 			button_instance.text = "%s by %s" % [data_row[&"story_title"], data_row[&"author_name"]]
+			if data_row.has(&"retelling_submitted") and data_row[&"retelling_submitted"]:
+				button_instance.disabled = true
 		elif empty_to_listen:
 			empty_to_listen = false
 			button_instance.text = "Listen..."
@@ -72,8 +74,6 @@ func _on_past_folklore_button_pressed(button_instance, data_iter):
 func _get_existing_file_names() -> Array[String]:
 	var existing_file_names : Array[String] = []
 	for data_row in data:
-		if data.is_empty():
-			continue
 		if not data_row.is_empty() and data_row.has(&"file_name"):
 			existing_file_names.append(data_row[&"file_name"])
 	return existing_file_names
@@ -133,3 +133,16 @@ func _on_get_past_folklore_request_failed():
 	if button_child:
 		button_child.disabled = false
 	_requesting_folklore = false
+
+func mark_folklore_submitted(file_key):
+	var data_iter = 0
+	for data_row in data:
+		if not data_row.is_empty() and data_row.has(&"file_name"):
+			if file_key == data_row[&"file_name"]:
+				data_row[&"retelling_submitted"] = true
+				return
+		data_iter += 1
+	var button_child : Button = buttons_container.get_child(data_iter)
+	if button_child:
+		button_child.disabled = true
+	_update_persistent_setting()
