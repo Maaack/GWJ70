@@ -116,12 +116,20 @@ func _on_s_3_get_request_request_completed(result, response_code, headers, body)
 	else:
 		push_error("Failed to download file, %d %s" % [response_code, body.get_string_from_utf8()])
 
+func _get_retold_count() -> int:
+	var retold_count : int = 0
+	for data_row in data:
+		if data_row.has(&"retelling_submitted") and data_row[&"retelling_submitted"]:
+			retold_count += 1
+	return retold_count
+
 func _ready():
 	var default_data := Array()
 	for slot_iter in slots_available:
 		default_data.append({})
 	data = Config.get_config(AppSettings.GAME_SECTION, "PastFolklore", default_data)
-	while len(data) < slots_available:
+	var retold_count = _get_retold_count()
+	while len(data) - retold_count < slots_available:
 		data.append({})
 	_refresh_list()
 
