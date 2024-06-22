@@ -34,3 +34,7 @@ func _on_get_folklore_user_user_received(user_status, user_name, folklore_accept
 func _on_naming_ui_name_updated():
 	%NamingUI.hide()
 	$GetFolkloreUser.request()
+
+func _unhandled_key_input(event):
+	if event.is_action_pressed(&"hard_reset"):
+		Config.erase_section(AppSettings.GAME_SECTION)

@@ -53,15 +53,17 @@ func _get_past_folklore_audio_stream(audio_stream_path) -> AudioStreamWAV:
 
 func _play_folklore(data_index : int):
 	var data_row : Dictionary = data[data_index]
-	
 	var audio_stream := _get_past_folklore_audio_stream(data_row[&"audio_file_path"])
+	if not audio_stream:
+		audio_stream = AudioStreamWAV.new()
 	folklore_queued.emit(audio_stream, data_row[&"story_name"], data_row[&"author_name"], data_row[&"transcript"])
 
 func _on_past_folklore_button_pressed(button_instance, data_iter):
 	var past_folklore : Dictionary = data[data_iter]
 	if past_folklore.is_empty():
-		button_instance.disabled = true
+		if _requesting_folklore : return
 		_requesting_folklore = true
+		button_instance.disabled = true
 		_requested_folklore_iter = data_iter
 		$GetPastFolklore.request(_get_existing_file_names())
 	else:
@@ -78,6 +80,7 @@ func _get_existing_file_names() -> Array[String]:
 
 func _on_get_past_folklore_url_received(download_url : String, file_key : String, story_name : String, author_name : String, transcript : String):
 	var data_row = data[_requested_folklore_iter]
+	data_row[&"download_url"] = download_url
 	data_row[&"transcript"] = transcript
 	data_row[&"file_name"] = file_key
 	data_row[&"audio_file_path"] = "user://%s" % file_key.get_file()
@@ -97,6 +100,7 @@ func _on_get_past_folklore_url_received(download_url : String, file_key : String
 	data[_requested_folklore_iter] = data_row
 
 func _on_s_3_get_request_request_completed(result, response_code, headers, body):
+	_requesting_folklore = false
 	_reset_download_button_state()
 	if response_code == 200:
 		var data_row = data[_requested_folklore_iter]
@@ -125,4 +129,7 @@ func _update_persistent_setting():
 	Config.set_config(AppSettings.GAME_SECTION, "PastFolklore", data)
 
 func _on_get_past_folklore_request_failed():
-	pass # Replace with function body.
+	var button_child : Button = buttons_container.get_child(_requested_folklore_iter)
+	if button_child:
+		button_child.disabled = false
+	_requesting_folklore = false

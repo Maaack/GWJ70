@@ -24,6 +24,7 @@ func _on_set_folklore_user_name_name_updated():
 
 func _on_set_folklore_user_name_request_failed():
 	_request_in_progress = false
+	%ConfirmButton.disabled = false
 	%ErrorMessage.show()
 
 func _on_user_name_edit_text_changed(new_text):
