@@ -86,4 +86,5 @@ visible = false
 layout_mode = 2
 
 [connection signal="user_received" from="GetFolkloreUser" to="." method="_on_get_folklore_user_user_received"]
+[connection signal="folklore_submitted" from="MarginContainer/VBoxContainer/VBoxContainer/ListeningUI" to="." method="_on_listening_ui_folklore_submitted"]
 [connection signal="name_updated" from="MarginContainer/VBoxContainer/VBoxContainer/NamingUI" to="." method="_on_naming_ui_name_updated"]

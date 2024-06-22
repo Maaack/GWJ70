@@ -25,7 +25,7 @@ func _get_audio_file_data():
 		return FileAccess.get_file_as_bytes(file_path)
 
 func _on_retell_folklore():
-	$GetSubmitURL.request_destination(_folklore_audio_key)
+	$GetSubmitURL.request(_folklore_audio_key)
 
 func _on_get_past_folklore():
 	$GetPastFolklore.request()
@@ -55,7 +55,7 @@ func _on_s_3_put_request_request_completed(result, response_code, headers, body)
 	if response_code != 200:
 		push_error("Failed to upload audio to S3. HTTP status code: %d ; body: %s" % [response_code, body.get_string_from_utf8()])
 		return
-	$SubmitFolklore.transcribe_folklore(_recorded_audio_key)
+	$SubmitFolklore.request(_recorded_audio_key)
 
 func _on_get_past_folklore_url_received(download_url : String, transcription : String):
 		# Use the pre-signed URL to upload the audio data

@@ -38,3 +38,6 @@ func _on_naming_ui_name_updated():
 func _unhandled_key_input(event):
 	if event.is_action_pressed(&"hard_reset"):
 		Config.erase_section(AppSettings.GAME_SECTION)
+
+func _on_listening_ui_folklore_submitted():
+	%WaitingUI.show()

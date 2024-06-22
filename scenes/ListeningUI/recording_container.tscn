@@ -1,0 +1,88 @@
+[gd_scene load_steps=5 format=3 uid="uid://cbv0uuuwmm5j5"]
+
+[ext_resource type="PackedScene" uid="uid://bbh4cgmuvmslu" path="res://scenes/AudioPlayer/audio_player.tscn" id="1_77rvj"]
+[ext_resource type="Script" path="res://scenes/ListeningUI/recording_container.gd" id="1_vh0ag"]
+[ext_resource type="PackedScene" uid="uid://c0k1dfksrc6br" path="res://scenes/APIClient/ClientWrappers/get_submit_url.tscn" id="3_k6g3s"]
+[ext_resource type="PackedScene" uid="uid://cacmlvjd22f63" path="res://scenes/APIClient/ClientWrappers/submit_folklore.tscn" id="4_se33b"]
+
+[node name="RecordingContainer" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vh0ag")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RetellingLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Retelling"
+
+[node name="StoryTitleLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="AuthorNameLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.498039)
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleQuestionLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "What is your story's title?"
+horizontal_alignment = 1
+
+[node name="StoryTitleEdit" type="LineEdit" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Title"
+alignment = 1
+
+[node name="Spacer" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AudioPlayer" parent="VBoxContainer" instance=ExtResource("1_77rvj")]
+layout_mode = 2
+recording_enabled = true
+
+[node name="SubmitButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Submit Story"
+
+[node name="Spacer2" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GoBackButton" type="Button" parent="."]
+layout_mode = 2
+text = "Go Back"
+
+[node name="GetSubmitURL" parent="." instance=ExtResource("3_k6g3s")]
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+dialog_text = "Going back will clear your recordings.
+
+Are you sure you want to go back?"
+
+[node name="S3PutRequest" type="HTTPRequest" parent="."]
+
+[node name="SubmitFolklore" parent="." instance=ExtResource("4_se33b")]
+
+[connection signal="recording_stopped" from="VBoxContainer/AudioPlayer" to="." method="_on_audio_player_recording_stopped"]
+[connection signal="pressed" from="VBoxContainer/SubmitButton" to="." method="_on_submit_button_pressed"]
+[connection signal="pressed" from="GoBackButton" to="." method="_on_go_back_button_pressed"]
+[connection signal="url_received" from="GetSubmitURL" to="." method="_on_get_submit_url_url_received"]
+[connection signal="canceled" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_canceled"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
+[connection signal="request_completed" from="S3PutRequest" to="." method="_on_s_3_put_request_request_completed"]
+[connection signal="folklore_submitted" from="SubmitFolklore" to="." method="_on_submit_folklore_folklore_submitted"]

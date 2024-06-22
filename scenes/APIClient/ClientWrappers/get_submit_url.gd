@@ -2,9 +2,10 @@ extends Node
 
 signal url_received(upload_url : String, audio_key : String)
 
-func request_destination(parent : String = ""):
+func request(story_title : String, parent : String = ""):
 	var form : Dictionary = {
-		"user_id" : Config.get_config(AppSettings.GAME_SECTION, "UserID")
+		"user_id" : Config.get_config(AppSettings.GAME_SECTION, "UserID"),
+		"story_title" : story_title
 	}
 	if not parent.is_empty():
 		form['parent'] = parent
