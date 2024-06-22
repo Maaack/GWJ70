@@ -141,7 +141,7 @@ func mark_folklore_submitted(file_key):
 		if not data_row.is_empty() and data_row.has(&"file_name"):
 			if file_key == data_row[&"file_name"]:
 				data_row[&"retelling_submitted"] = true
-				return
+				break
 		data_iter += 1
 	var button_child : Button = buttons_container.get_child(data_iter)
 	if button_child:

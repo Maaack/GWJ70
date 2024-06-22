@@ -48,6 +48,8 @@ var _stream_length : float
 
 var record_effect: AudioEffect
 
+var _hide_stop_button : bool = false
+
 func has_stream() -> bool:
 	return audio_stream != null
 
@@ -63,25 +65,25 @@ func _refresh_object_visiblity():
 		UIStates.PLAYING:
 			%PlayButton.hide()
 			%PauseButton.show()
-			%StopButton.show()
+			%StopButton.visible = not _hide_stop_button
 			%StopButton.disabled = false
 			%RecordButton.hide()
 		UIStates.STOPPED:
 			%PlayButton.visible = has_stream()
 			%PauseButton.hide()
-			%StopButton.show()
+			%StopButton.visible = not _hide_stop_button
 			%StopButton.disabled = true
 			%RecordButton.visible = recording_enabled
 		UIStates.PAUSED:
 			%PlayButton.visible = has_stream()
 			%PauseButton.hide()
-			%StopButton.show()
+			%StopButton.visible = not _hide_stop_button
 			%StopButton.disabled = false
 			%RecordButton.visible = recording_enabled
 		UIStates.RECORDING:
 			%PlayButton.hide()
 			%PauseButton.hide()
-			%StopButton.show()
+			%StopButton.visible = not _hide_stop_button
 			%StopButton.disabled = false
 			%RecordButton.hide()
 func pause():
@@ -100,6 +102,10 @@ func stop():
 			current_state = UIStates.STOPPED
 			playback_stopped.emit()
 
+func force_play():
+	_hide_stop_button = true
+	play()
+
 func play():
 	if current_state in [UIStates.STOPPED, UIStates.PAUSED]:
 		current_state = UIStates.PLAYING
@@ -110,6 +116,7 @@ func play():
 		playback_started.emit()
 
 func _completed():
+	_hide_stop_button = false
 	current_state = UIStates.STOPPED
 	audio_progress_bar.value = 0.0
 	playback_completed.emit()

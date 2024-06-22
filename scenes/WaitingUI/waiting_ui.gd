@@ -6,7 +6,7 @@ extends Control
 		folklore_data = value
 		if is_inside_tree():
 			_refresh_list()
-@onready var container_node : Container = $VBoxContainer
+@onready var container_node : Container = %StatusContainer
 
 func _clear_list():
 	for child in container_node.get_children():

@@ -46,6 +46,7 @@ func _submit_folklore():
 func _on_audio_player_recording_stopped(audio_stream):
 	if audio_stream is AudioStreamWAV:
 		_recorded_audio_stream = audio_stream
+		%SubmitButton.disabled = false
 
 func _on_go_back_button_pressed():
 	$ConfirmationDialog.popup_centered()
@@ -78,3 +79,7 @@ func _on_submit_button_pressed():
 func _on_submit_folklore_folklore_submitted():
 	%SubmitButton.disabled = false
 	folklore_submitted.emit()
+
+func _on_submit_folklore_request_failed():
+	%SubmitButton.disabled = false
+	%SubmitButton.text = "Try Again"

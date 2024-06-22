@@ -74,7 +74,9 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="PassOnButton" type="Button" parent="ListeningContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+disabled = true
 text = "Pass On"
 
 [node name="RecordingContainer" parent="." instance=ExtResource("3_iidm0")]
@@ -86,6 +88,10 @@ layout_mode = 1
 buttons_container = NodePath("../ListeningContainer/HBoxContainer/VBoxContainer/PastFolkloreContainer")
 slots_available = 3
 
+[connection signal="playback_completed" from="ListeningContainer/HBoxContainer/VBoxContainer2/AudioPlayer" to="." method="_on_audio_player_playback_completed"]
+[connection signal="playback_started" from="ListeningContainer/HBoxContainer/VBoxContainer2/AudioPlayer" to="." method="_on_audio_player_playback_started"]
+[connection signal="playback_stopped" from="ListeningContainer/HBoxContainer/VBoxContainer2/AudioPlayer" to="." method="_on_audio_player_playback_stopped"]
+[connection signal="renamed" from="ListeningContainer/HBoxContainer/VBoxContainer2/AudioPlayer" to="." method="_on_audio_player_renamed"]
 [connection signal="pressed" from="ListeningContainer/PassOnButton" to="." method="_on_pass_on_button_pressed"]
 [connection signal="tree_exiting" from="ListeningContainer/PassOnButton" to="." method="_on_pass_on_button_tree_exiting"]
 [connection signal="folklore_submitted" from="RecordingContainer" to="." method="_on_recording_container_folklore_submitted"]
