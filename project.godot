@@ -13,12 +13,14 @@ config_version=5
 config/name="Lore of the Wild"
 run/main_scene="res://scenes/Opening/OpeningWithLogo.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
+boot_splash/bg_color=Color(0.00392157, 0.0862745, 0.152941, 1)
 config/icon="res://icon.svg"
 
 [audio]
 
 driver/enable_input=true
 driver/mix_rate=22050
+driver/mix_rate.web=22050
 
 [autoload]
 
@@ -73,3 +75,4 @@ copy_path="res://"
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.00392157, 0.0862745, 0.152941, 1)

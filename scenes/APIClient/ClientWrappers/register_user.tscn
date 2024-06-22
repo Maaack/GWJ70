@@ -9,3 +9,5 @@ script = ExtResource("1_avuya")
 [node name="APIClient" parent="." instance=ExtResource("1_bk4wq")]
 api_url = "https://0ys0761ple.execute-api.us-east-1.amazonaws.com/prod/register-user"
 api_key_file = "res://API_KEY_SECRET.txt"
+
+[connection signal="request_failed" from="APIClient" to="." method="_on_api_client_request_failed"]

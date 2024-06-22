@@ -101,7 +101,7 @@ func _on_request_completed(result, response_code, headers, body):
 			emit_signal("response_received", body_dict)
 	else:
 		if body is PackedByteArray:
-			emit_signal("request_failed", body.get_string_from_utf8())
+			emit_signal(&"request_failed", body.get_string_from_utf8())
 		push_error(result)
 
 func _on_http_request_request_completed(result, response_code, headers, body):

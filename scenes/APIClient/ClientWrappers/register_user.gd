@@ -6,3 +6,7 @@ func register_user():
 	}
 	var body = JSON.stringify(form)
 	$APIClient.request(body)
+
+
+func _on_api_client_request_failed(error):
+	push_error(error)
