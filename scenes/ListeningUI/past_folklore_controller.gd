@@ -117,6 +117,8 @@ func _ready():
 	for slot_iter in slots_available:
 		default_data.append({})
 	data = Config.get_config(AppSettings.GAME_SECTION, "PastFolklore", default_data)
+	while len(data) < slots_available:
+		data.append({})
 	_refresh_list()
 
 func _update_persistent_setting():
