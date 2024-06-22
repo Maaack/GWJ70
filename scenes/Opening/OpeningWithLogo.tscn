@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://ckhmpnivoeclo" path="res://scenes/Opening/Opening.tscn" id="1_lef43"]
 [ext_resource type="Texture2D" uid="uid://bspw50lj4iihm" path="res://assets/images/GWJ-Full-Logo-tag-Orange2.svg" id="2_x5yba"]
-[ext_resource type="Texture2D" uid="uid://copi30eniv0gn" path="res://assets/images/ThemeBanner.png" id="3_jwo6s"]
-[ext_resource type="Texture2D" uid="uid://biburwxnbeikr" path="res://assets/images/WildcardsBanner.png" id="4_n5ie0"]
+[ext_resource type="Texture2D" uid="uid://cmfrfabi0ucke" path="res://assets/images/70-Folklore.webp" id="3_yx8kf"]
+[ext_resource type="Texture2D" uid="uid://ce4flwjoa5wm" path="res://assets/images/70-All-Cards.webp" id="4_pfp8h"]
 [ext_resource type="PackedScene" uid="uid://l4lek8he168b" path="res://scenes/APIClient/ClientWrappers/register_user.tscn" id="5_4upyn"]
 
 [node name="Opening" instance=ExtResource("1_lef43")]
-images = Array[Texture2D]([ExtResource("2_x5yba"), ExtResource("3_jwo6s"), ExtResource("4_n5ie0")])
+images = Array[Texture2D]([ExtResource("2_x5yba"), ExtResource("3_yx8kf"), ExtResource("4_pfp8h")])
 
 [node name="ImagesContainer" parent="." index="2"]
 theme_override_constants/margin_left = 64
