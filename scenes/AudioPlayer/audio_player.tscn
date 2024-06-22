@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbh4cgmuvmslu"]
+[gd_scene load_steps=7 format=3 uid="uid://bbh4cgmuvmslu"]
 
 [ext_resource type="Texture2D" uid="uid://c0ehfscdtxmk" path="res://assets/images/play-button.png" id="1_60ptm"]
 [ext_resource type="Script" path="res://scenes/AudioPlayer/audio_player.gd" id="1_o0tvw"]
 [ext_resource type="Texture2D" uid="uid://b1qldtncv21wa" path="res://assets/images/pause-button.png" id="2_fly5r"]
 [ext_resource type="Texture2D" uid="uid://b2cfhdoskpksy" path="res://assets/images/plain-square.png" id="3_4lkoe"]
+[ext_resource type="Texture2D" uid="uid://cjgp3g2cxgtu7" path="res://assets/images/plain-circle.png" id="3_pqwm4"]
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_lub6q"]
 
 [node name="AudioPlayer" type="Control"]
 custom_minimum_size = Vector2(300, 64)
@@ -29,10 +32,41 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="AudioPlayerControls" type="HBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="AudioProgressBar" type="ProgressBar" parent="MarginContainer/AudioPlayerControls"]
+[node name="AudioPlayerControls" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="RecordButton" type="TextureButton" parent="MarginContainer/VBoxContainer/AudioPlayerControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+texture_normal = ExtResource("3_pqwm4")
+stretch_mode = 5
+
+[node name="PlayButton" type="TextureButton" parent="MarginContainer/VBoxContainer/AudioPlayerControls"]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = ExtResource("1_60ptm")
+stretch_mode = 5
+
+[node name="PauseButton" type="TextureButton" parent="MarginContainer/VBoxContainer/AudioPlayerControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+texture_normal = ExtResource("2_fly5r")
+stretch_mode = 5
+
+[node name="StopButton" type="TextureButton" parent="MarginContainer/VBoxContainer/AudioPlayerControls"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+texture_normal = ExtResource("3_4lkoe")
+stretch_mode = 5
+
+[node name="AudioProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
@@ -41,29 +75,15 @@ max_value = 1.0
 step = 0.001
 show_percentage = false
 
-[node name="PlayButton" type="TextureButton" parent="MarginContainer/AudioPlayerControls"]
-unique_name_in_owner = true
-layout_mode = 2
-texture_normal = ExtResource("1_60ptm")
-stretch_mode = 5
-
-[node name="PauseButton" type="TextureButton" parent="MarginContainer/AudioPlayerControls"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-texture_normal = ExtResource("2_fly5r")
-stretch_mode = 5
-
-[node name="StopButton" type="TextureButton" parent="MarginContainer/AudioPlayerControls"]
-unique_name_in_owner = true
-layout_mode = 2
-disabled = true
-texture_normal = ExtResource("3_4lkoe")
-stretch_mode = 5
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
-[connection signal="pressed" from="MarginContainer/AudioPlayerControls/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="MarginContainer/AudioPlayerControls/PauseButton" to="." method="_on_pause_button_pressed"]
-[connection signal="pressed" from="MarginContainer/AudioPlayerControls/StopButton" to="." method="_on_stop_button_pressed"]
+[node name="AudioStreamRecorder" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamMicrophone_lub6q")
+autoplay = true
+bus = &"Microphone"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/AudioPlayerControls/RecordButton" to="." method="_on_record_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/AudioPlayerControls/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/AudioPlayerControls/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/AudioPlayerControls/StopButton" to="." method="_on_stop_button_pressed"]
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

@@ -1,17 +1,23 @@
 @tool
-class_name AudioPlayer
+class_name AudioPlayerControl
 extends Control
 
 signal playback_started
 signal playback_stopped
 signal playback_paused
 signal playback_completed
+signal recording_started
+signal recording_stopped(audio_stream : AudioStreamWAV)
+
+const SAMPLE_RATE = 22050
 
 enum UIStates{
 	DISABLED,
 	PLAYING,
 	STOPPED,
 	PAUSED,
+	RECORDING,
+	MUTED
 }
 
 @export var current_state : UIStates :
@@ -29,10 +35,18 @@ enum UIStates{
 		if is_inside_tree():
 			$AudioStreamPlayer.stream = audio_stream
 
+@export_group("Recording")
+@export var recording_enabled : bool = false
+@export var recording_audio_bus : StringName = &"Microphone"
+@export var recording_effect_index : int = 0
+@export var stereo : bool = true
+
 @onready var audio_stream_player = $AudioStreamPlayer
 @onready var audio_progress_bar = %AudioProgressBar
 
 var _stream_length : float
+
+var record_effect: AudioEffect
 
 func _refresh_object_visiblity():
 	if not is_inside_tree(): return
@@ -42,22 +56,31 @@ func _refresh_object_visiblity():
 			%PauseButton.hide()
 			%StopButton.hide()
 			%StopButton.disabled = false
+			%RecordButton.hide()
 		UIStates.PLAYING:
 			%PlayButton.hide()
 			%PauseButton.show()
 			%StopButton.show()
 			%StopButton.disabled = false
+			%RecordButton.hide()
 		UIStates.STOPPED:
 			%PlayButton.show()
 			%PauseButton.hide()
 			%StopButton.show()
 			%StopButton.disabled = true
+			%RecordButton.visible = recording_enabled
 		UIStates.PAUSED:
 			%PlayButton.show()
 			%PauseButton.hide()
 			%StopButton.show()
 			%StopButton.disabled = false
-
+			%RecordButton.visible = recording_enabled
+		UIStates.RECORDING:
+			%PlayButton.hide()
+			%PauseButton.hide()
+			%StopButton.show()
+			%StopButton.disabled = false
+			%RecordButton.hide()
 func pause():
 	if current_state == UIStates.PLAYING:
 		current_state = UIStates.PAUSED
@@ -65,11 +88,14 @@ func pause():
 		playback_paused.emit()
 
 func stop():
-	if current_state in [UIStates.PLAYING, UIStates.PAUSED]:
+	if current_state in [UIStates.PLAYING, UIStates.PAUSED, UIStates.RECORDING]:
 		audio_stream_player.stop()
 		current_state = UIStates.STOPPED
 		audio_progress_bar.value = 0.0
-		playback_stopped.emit()
+		if record_effect.is_recording_active():
+			_stop_recording()
+		else:
+			playback_stopped.emit()
 
 func play():
 	if current_state in [UIStates.STOPPED, UIStates.PAUSED]:
@@ -85,6 +111,35 @@ func _completed():
 	audio_progress_bar.value = 0.0
 	playback_completed.emit()
 
+func _start_recording():
+	if record_effect.is_recording_active(): return
+	record_effect.set_recording_active(true)
+	recording_started.emit()
+
+func _stop_recording():
+	if not record_effect.is_recording_active(): return
+	var recorded_audio_stream : AudioStreamWAV = record_effect.get_recording()
+	record_effect.set_recording_active(false)
+	recorded_audio_stream.set_mix_rate(SAMPLE_RATE)
+	recorded_audio_stream.set_format(AudioStreamWAV.FORMAT_16_BITS)
+	recorded_audio_stream.set_stereo(stereo)
+	audio_stream = recorded_audio_stream
+	recording_stopped.emit(recorded_audio_stream)
+
+func toggle_recording():
+	if record_effect.is_recording_active():
+		_stop_recording()
+	else:
+		_start_recording()
+
+func record():
+	if current_state in [UIStates.STOPPED, UIStates.PAUSED]:
+		current_state = UIStates.RECORDING
+		_start_recording()
+
+func _on_record_button_pressed():
+	record()
+
 func _on_pause_button_pressed():
 	pause()
 
@@ -97,10 +152,15 @@ func _on_play_button_pressed():
 func _on_audio_stream_player_finished():
 	_completed()
 
-func ready():
-	current_state = current_state
-
 func _process(_delta):
 	if current_state == UIStates.PLAYING:
 		var ratio = audio_stream_player.get_playback_position() / _stream_length
 		audio_progress_bar.value = ratio
+
+func _ready() -> void:
+	current_state = current_state
+	$AudioStreamRecorder.bus = recording_audio_bus
+	var idx := AudioServer.get_bus_index(recording_audio_bus)
+	record_effect = AudioServer.get_bus_effect(idx, recording_effect_index)
+	if not record_effect is AudioEffectRecord:
+		push_error("missing Record bus effect at index %d" % recording_effect_index)
