@@ -365,9 +365,11 @@ modulate = Color(1, 1, 1, 0)
 
 [node name="Title" parent="MenuContainer/VBoxContainer/TitlesMargin/TitlesContainer" index="0"]
 modulate = Color(1, 1, 1, 0)
+text = "Lore of the Wild"
 
 [node name="SubTitle" parent="MenuContainer/VBoxContainer/TitlesMargin/TitlesContainer" index="1"]
 modulate = Color(1, 1, 1, 0)
+text = "GWJ #70 Edition"
 
 [node name="MenuButtons" parent="MenuContainer/VBoxContainer/MenuMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
