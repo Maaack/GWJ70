@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://b63j2whpssqxh"]
+[gd_scene load_steps=15 format=3 uid="uid://b63j2whpssqxh"]
 
 [ext_resource type="Script" path="res://scenes/GameScene/GameUI.gd" id="1_c3jsp"]
+[ext_resource type="Theme" uid="uid://c5hpy5cti4wvx" path="res://scenes/base_theme.tres" id="1_v5otb"]
 [ext_resource type="Script" path="res://addons/maaacks_game_template/extras/scripts/PauseMenuController.gd" id="4_0ixpy"]
 [ext_resource type="Material" uid="uid://dvdn8lqt167bi" path="res://scenes/GameScene/palette_shader_material.tres" id="5_63av8"]
 [ext_resource type="PackedScene" uid="uid://bfgijk40t2obj" path="res://scenes/Menus/PauseMenu/PauseMenu.tscn" id="5_t6i6f"]
@@ -13,6 +14,9 @@
 [ext_resource type="PackedScene" uid="uid://bt06t2v6h5xn5" path="res://scenes/ListeningUI/listening_ui.tscn" id="8_n4jhp"]
 [ext_resource type="PackedScene" uid="uid://co8yjdq0dl1d8" path="res://scenes/NamingUI/naming_ui.tscn" id="9_vd71b"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rqxoc"]
+bg_color = Color(0.00392157, 0.0862745, 0.152941, 1)
+
 [node name="GameUI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -20,6 +24,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_v5otb")
 script = ExtResource("1_c3jsp")
 
 [node name="PauseMenuController" type="Node" parent="."]
@@ -50,6 +55,33 @@ script = ExtResource("6_w6ckt")
 
 [node name="GetFolkloreUser" parent="." instance=ExtResource("6_378mr")]
 
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rqxoc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UserStatusLabel" type="Label" parent="Panel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Loading..."
+horizontal_alignment = 1
+
+[node name="RequestProgressBar" parent="Panel/VBoxContainer" instance=ExtResource("7_mo3h3")]
+unique_name_in_owner = true
+layout_mode = 2
+time = 10.0
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -58,23 +90,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
+theme_override_constants/margin_top = 84
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-
-[node name="UserStatusLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Loading..."
-horizontal_alignment = 1
-
-[node name="RequestProgressBar" parent="MarginContainer/VBoxContainer" instance=ExtResource("7_mo3h3")]
-unique_name_in_owner = true
-layout_mode = 2
-time = 10.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -97,6 +118,6 @@ visible = false
 layout_mode = 2
 
 [connection signal="user_received" from="GetFolkloreUser" to="." method="_on_get_folklore_user_user_received"]
-[connection signal="timed_out" from="MarginContainer/VBoxContainer/RequestProgressBar" to="." method="_on_time_progress_bar_timed_out"]
+[connection signal="timed_out" from="Panel/VBoxContainer/RequestProgressBar" to="." method="_on_time_progress_bar_timed_out"]
 [connection signal="folklore_submitted" from="MarginContainer/VBoxContainer/VBoxContainer/ListeningUI" to="." method="_on_listening_ui_folklore_submitted"]
 [connection signal="name_updated" from="MarginContainer/VBoxContainer/VBoxContainer/NamingUI" to="." method="_on_naming_ui_name_updated"]

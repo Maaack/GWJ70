@@ -26,12 +26,13 @@ text = "Retelling"
 [node name="StoryTitleLabel" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.929412, 0.921569, 0.627451, 1)
 theme_override_font_sizes/font_size = 32
 
 [node name="AuthorNameLabel" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 0.498039)
+theme_override_colors/font_color = Color(0.631373, 0.52549, 0.619608, 1)
 
 [node name="HSeparator" type="HSeparator" parent="."]
 layout_mode = 2
@@ -66,7 +67,8 @@ layout_mode = 2
 text = "Tell or retell the story in your own words.
 
 Use your microphone. 
-Please try to reduce background noise, speak clearly, and in English.
+Try to reduce background noise,
+speak clearly, and in English.
 Stories must be less than 3 minutes long.
 
 Press the record button above to begin."

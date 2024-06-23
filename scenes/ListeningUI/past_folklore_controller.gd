@@ -20,6 +20,7 @@ func _build_list():
 	var data_iter = 0
 	for data_row in data:
 		var button_instance := Button.new()
+		button_instance.text_overrun_behavior = TextServer.OVERRUN_TRIM_WORD_ELLIPSIS
 		button_instance.text = "Wait"
 		if data_row.has(&"story_title") and data_row.has(&"author_name"):
 			button_instance.text = "%s by %s" % [data_row[&"story_title"], data_row[&"author_name"]]
