@@ -54,6 +54,7 @@ size_flags_vertical = 3
 
 [node name="AudioPlayer" parent="." instance=ExtResource("1_77rvj")]
 layout_mode = 2
+size_flags_horizontal = 8
 recording_enabled = true
 
 [node name="Spacer2" type="Control" parent="."]
@@ -64,10 +65,12 @@ size_flags_vertical = 3
 layout_mode = 2
 text = "Tell or retell the story in your own words.
 
-Use your microphone. Please try to reduce background noise, speak clearly, and in English.
+Use your microphone. 
+Please try to reduce background noise, speak clearly, and in English.
+Stories must be less than 3 minutes long.
 
-Stories must be less than 3 minutes long."
-horizontal_alignment = 1
+Press the record button above to begin."
+horizontal_alignment = 2
 
 [node name="Spacer3" type="Control" parent="."]
 layout_mode = 2

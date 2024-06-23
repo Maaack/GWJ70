@@ -2,27 +2,27 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crdfhkbhqrkre"
-path="res://.godot/imported/LoreOfTheWildPalette.png-3af1c837c3f9f281f3f7cc1aae8669d9.ctex"
+uid="uid://b01h7diayvriy"
+path="res://.godot/imported/splat.png-75add82bf1f555c1b04e6901f687c8fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/LoreOfTheWildPalette.png"
-dest_files=["res://.godot/imported/LoreOfTheWildPalette.png-3af1c837c3f9f281f3f7cc1aae8669d9.ctex"]
+source_file="res://scenes/GameScene/hterrain/splat.png"
+dest_files=["res://.godot/imported/splat.png-75add82bf1f555c1b04e6901f687c8fa.ctex"]
 
 [params]
 
 compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
-compress/hdr_compression=1
+compress/hdr_compression=0
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
-mipmaps/limit=-1
+mipmaps/generate=false
+mipmaps/limit=0
 roughness/mode=0
 roughness/src_normal=""
 process/fix_alpha_border=false

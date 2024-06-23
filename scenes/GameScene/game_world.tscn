@@ -1,0 +1,186 @@
+[gd_scene load_steps=20 format=3 uid="uid://bbf0rcvmwrtg8"]
+
+[ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="1_yrv0s"]
+[ext_resource type="Resource" path="res://scenes/GameScene/hterrain/data.hterrain" id="2_iec4v"]
+[ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="3_7o7em"]
+[ext_resource type="ArrayMesh" path="res://assets/scenes/RocksMesh.tres" id="4_udwlp"]
+[ext_resource type="ArrayMesh" path="res://assets/scenes/WoodMesh.tres" id="5_djn6h"]
+[ext_resource type="ArrayMesh" uid="uid://bw428gon1m2yn" path="res://assets/objects/KenneyAssets/tree.obj" id="7_p125f"]
+[ext_resource type="Texture2D" uid="uid://bnp6pdnhc86jq" path="res://assets/images/White puff/whitePuff24.png" id="10_vpwrc"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nitks"]
+
+[sub_resource type="Sky" id="Sky_u200v"]
+sky_material = SubResource("ProceduralSkyMaterial_nitks")
+
+[sub_resource type="Environment" id="Environment_kvsx2"]
+background_mode = 2
+background_energy_multiplier = 0.1
+sky = SubResource("Sky_u200v")
+
+[sub_resource type="Resource" id="Resource_bqkyu"]
+script = ExtResource("3_7o7em")
+mode = 0
+textures = [[], []]
+
+[sub_resource type="Animation" id="Animation_gkjp0"]
+resource_name = "Fire"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4, 3.6, 3.8, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [4.0, 5.0, 4.5, 5.0, 4.0, 5.0, 4.0, 5.25, 4.0, 5.0, 4.0, 5.0, 4.8, 5.25, 4.2, 5.0, 4.0, 5.0, 4.25, 5.0, 4.0]
+}
+
+[sub_resource type="Animation" id="Animation_0u6n4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [4.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mwqal"]
+_data = {
+"Fire": SubResource("Animation_gkjp0"),
+"RESET": SubResource("Animation_0u6n4")
+}
+
+[sub_resource type="Curve" id="Curve_uwtaf"]
+_data = [Vector2(0.150579, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.25923), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1o8en"]
+curve = SubResource("Curve_uwtaf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p6en1"]
+emission_shape_scale = Vector3(0.1, 0.1, 0.1)
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_max = 306.1
+gravity = Vector3(0, 9.8, 0)
+scale_curve = SubResource("CurveTexture_1o8en")
+turbulence_enabled = true
+turbulence_noise_strength = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pobaw"]
+transparency = 1
+albedo_texture = ExtResource("10_vpwrc")
+
+[sub_resource type="QuadMesh" id="QuadMesh_vo1mb"]
+material = SubResource("StandardMaterial3D_pobaw")
+size = Vector2(0.1, 0.1)
+
+[node name="GameWorld" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.855048, 0.518549, 0, -0.518549, 0.855048, 0.329107, -0.664061, 0.397615)
+current = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_kvsx2")
+
+[node name="HTerrain" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, -64)
+script = ExtResource("1_yrv0s")
+map_scale = Vector3(0.25, 1, 0.25)
+_terrain_data = ExtResource("2_iec4v")
+chunk_size = 32
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Classic4Lite"
+custom_shader = null
+custom_globalmap_shader = null
+texture_set = SubResource("Resource_bqkyu")
+render_layers = 1
+cast_shadow = 1
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_triplanar = null
+shader_params/u_tile_reduction = null
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+light_color = Color(1, 0.437196, 0.344856, 1)
+light_energy = 4.0
+shadow_enabled = true
+omni_range = 9.73989
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="OmniLight3D2"]
+libraries = {
+"": SubResource("AnimationLibrary_mwqal")
+}
+autoplay = "Fire"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.07757, 0)
+mesh = ExtResource("4_udwlp")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.07757, 0)
+mesh = ExtResource("5_djn6h")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.02587, 0)
+amount = 32
+lifetime = 0.5
+speed_scale = 0.5
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_p6en1")
+draw_pass_1 = SubResource("QuadMesh_vo1mb")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.43841, -1.23837, -1.1095)
+mesh = ExtResource("7_p125f")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.38145, -1.23837, -1.11413)
+mesh = ExtResource("7_p125f")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.76917, -1.23837, -1.67802)
+mesh = ExtResource("7_p125f")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.77788, -1.46077, -3.4016)
+mesh = ExtResource("7_p125f")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.37592, -1.44074, -4.47417)
+mesh = ExtResource("7_p125f")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.450838, -1.40489, -2.63388)
+mesh = ExtResource("7_p125f")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.795629, -1.42469, -2.60259)
+mesh = ExtResource("7_p125f")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.161032, -1.42469, -3.95511)
+mesh = ExtResource("7_p125f")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.24095, -1.42469, -3.95511)
+mesh = ExtResource("7_p125f")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.10564, -1.42469, -1.72245)
+mesh = ExtResource("7_p125f")
