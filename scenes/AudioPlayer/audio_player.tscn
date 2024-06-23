@@ -90,6 +90,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"DelayProgressBar"
 max_value = 1.0
 step = 0.001
 show_percentage = false
@@ -102,8 +103,12 @@ stream = SubResource("AudioStreamMicrophone_lub6q")
 autoplay = true
 bus = &"Microphone"
 
+[node name="DelayPlayTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/AudioPlayerControls/RecordButton" to="." method="_on_record_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/AudioPlayerControls/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/AudioPlayerControls/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/AudioPlayerControls/StopButton" to="." method="_on_stop_button_pressed"]
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
+[connection signal="timeout" from="DelayPlayTimer" to="." method="_on_delay_play_timer_timeout"]

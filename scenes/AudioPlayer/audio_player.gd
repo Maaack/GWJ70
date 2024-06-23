@@ -41,6 +41,9 @@ enum UIStates{
 			$AudioStreamPlayer.stream = audio_stream
 			_refresh_object_visiblity()
 @export var start_delay : float = 0.0
+@export_group("Theme Variations")
+@export var normal_theme_variation : StringName = &""
+@export var delay_theme_variation : StringName
 
 @export_group("Recording")
 @export var recording_enabled : bool = false
@@ -125,8 +128,8 @@ func play():
 		else:
 			playback_started.emit()
 			if start_delay > 0.0:
-				await(get_tree().create_timer(start_delay).timeout)
-				if current_state != UIStates.PLAYING: return
+				$DelayPlayTimer.start(start_delay)
+				return
 			audio_stream_player.play()
 
 func _completed():
@@ -179,7 +182,14 @@ func _on_audio_stream_player_finished():
 
 func _process(_delta):
 	if current_state == UIStates.PLAYING:
-		var ratio = audio_stream_player.get_playback_position() / _stream_length
+		var ratio : float = 0.0
+		if not $DelayPlayTimer.is_stopped():
+			ratio = $DelayPlayTimer.time_left / $DelayPlayTimer.wait_time
+			if not delay_theme_variation.is_empty():
+				%AudioProgressBar.theme_type_variation = delay_theme_variation
+		else:
+			ratio = audio_stream_player.get_playback_position() / _stream_length
+			%AudioProgressBar.theme_type_variation = normal_theme_variation
 		audio_progress_bar.value = ratio
 
 func _ready() -> void:
@@ -189,3 +199,7 @@ func _ready() -> void:
 	record_effect = AudioServer.get_bus_effect(idx, recording_effect_index)
 	if not record_effect is AudioEffectRecord:
 		push_error("missing Record bus effect at index %d" % recording_effect_index)
+
+func _on_delay_play_timer_timeout():
+	if current_state != UIStates.PLAYING: return
+	audio_stream_player.play()
