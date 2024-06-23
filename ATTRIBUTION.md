@@ -1,18 +1,20 @@
 # Attribution
-## Collaborators
+## A Game By
+[Marek Belski](https://maaack.itch.io/)  
 
-### Role
-Person 1  
-Person 2  
-[Person w/ Link]()  
+### Music and SFX
+Mike  
 
+### In collaboration with
+Godot Wild Jam Community  
+and  
+You
 
-## Sourced / Unaffiliated
-### Asset Type
-#### Use Case
-Author: [Name]()  
-Source: [Domain : webpage.html]()  
-License: [License]()
+## Sourced
+### Kenney Assets
+Author: [Kenney](https://kenney.nl/)  
+Source: [kenney.nl : assets](https://kenney.nl/assets)  
+License: [CC0 Public Domain](https://creativecommons.org/public-domain/cc0/)
 
 ### Godot Wild Jam Logos
 Author: [Dawk](https://coreyaroberts.com/)  
@@ -29,6 +31,11 @@ License: [MIT License](https://github.com/godotengine/godot/blob/master/LICENSE.
 Author: [Linus Torvalds](https://github.com/torvalds)  
 Source: [git-scm.com](https://git-scm.com/downloads)  
 License: [GNU General Public License version 2](https://opensource.org/licenses/GPL-2.0)
+
+#### Visual Studio Code
+Author: [Microsoft](https://opensource.microsoft.com/)  
+Source: [github: vscode](https://github.com/microsoft/vscode)  
+License: [MIT License](https://github.com/microsoft/vscode/blob/main/LICENSE.txt)
 
 #### Godot Game Template
 Author: [Marek Belski and contributors](https://github.com/Maaack/Godot-Game-Template/graphs/contributors)  
