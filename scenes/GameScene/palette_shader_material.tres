@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dvdn8lqt167bi"]
+
+[ext_resource type="Shader" path="res://scenes/GameScene/palette_shader.gdshader" id="1_twfd5"]
+[ext_resource type="Texture2D" uid="uid://crdfhkbhqrkre" path="res://assets/images/LoreOfTheWildPalette.png" id="2_5kmik"]
+
+[resource]
+shader = ExtResource("1_twfd5")
+shader_parameter/num_colors = 6
+shader_parameter/PALETTE_TEXTURE = ExtResource("2_5kmik")
