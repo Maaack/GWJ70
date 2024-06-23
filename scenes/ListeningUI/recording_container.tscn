@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cbv0uuuwmm5j5"]
 
-[ext_resource type="PackedScene" uid="uid://bbh4cgmuvmslu" path="res://scenes/AudioPlayer/audio_player.tscn" id="1_77rvj"]
 [ext_resource type="Script" path="res://scenes/ListeningUI/recording_container.gd" id="1_vh0ag"]
+[ext_resource type="PackedScene" uid="uid://ce0vj1kbrojpq" path="res://scenes/AudioPlayer/audio_player_with_time_limit.tscn" id="2_kwo87"]
 [ext_resource type="PackedScene" uid="uid://c0k1dfksrc6br" path="res://scenes/APIClient/ClientWrappers/get_submit_url.tscn" id="3_k6g3s"]
 [ext_resource type="PackedScene" uid="uid://cacmlvjd22f63" path="res://scenes/APIClient/ClientWrappers/submit_folklore.tscn" id="4_se33b"]
 
@@ -53,11 +53,6 @@ alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="AudioPlayer" parent="." instance=ExtResource("1_77rvj")]
-layout_mode = 2
-size_flags_horizontal = 8
-recording_enabled = true
-
 [node name="Spacer2" type="Control" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
@@ -71,8 +66,20 @@ Try to reduce background noise,
 speak clearly, and in English.
 Stories must be less than 3 minutes long.
 
-Press the record button above to begin."
+Press the record button below to begin."
 horizontal_alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="AudioPlayer" parent="MarginContainer" instance=ExtResource("2_kwo87")]
+layout_mode = 2
+current_state = 2
+recording_enabled = true
 
 [node name="Spacer3" type="Control" parent="."]
 layout_mode = 2
@@ -96,8 +103,8 @@ Are you sure you want to go back?"
 [node name="SubmitFolklore" parent="." instance=ExtResource("4_se33b")]
 
 [connection signal="pressed" from="GoBackButton" to="." method="_on_go_back_button_pressed"]
-[connection signal="recording_started" from="AudioPlayer" to="." method="_on_audio_player_recording_started"]
-[connection signal="recording_stopped" from="AudioPlayer" to="." method="_on_audio_player_recording_stopped"]
+[connection signal="recording_started" from="MarginContainer/AudioPlayer" to="." method="_on_audio_player_recording_started"]
+[connection signal="recording_stopped" from="MarginContainer/AudioPlayer" to="." method="_on_audio_player_recording_stopped"]
 [connection signal="pressed" from="SubmitButton" to="." method="_on_submit_button_pressed"]
 [connection signal="url_received" from="GetSubmitURL" to="." method="_on_get_submit_url_url_received"]
 [connection signal="canceled" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_canceled"]

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://c5hpy5cti4wvx"]
+[gd_resource type="Theme" load_steps=13 format=3 uid="uid://c5hpy5cti4wvx"]
 
 [ext_resource type="FontFile" uid="uid://djn71t5phxxca" path="res://assets/fonts/XTypewriter-Regular.otf" id="1_i18bi"]
 
@@ -72,6 +72,30 @@ corner_radius_bottom_left = 4
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_67umr"]
 bg_color = Color(0.00392157, 0.0862745, 0.152941, 0.87451)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_00w47"]
+bg_color = Color(0.839216, 0.933333, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gh53c"]
+bg_color = Color(0.631373, 0.52549, 0.619608, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [resource]
 default_font = ExtResource("1_i18bi")
 default_font_size = 24
@@ -100,3 +124,7 @@ RichTextLabel/colors/default_color = Color(0.839216, 0.933333, 1, 1)
 RichTextLabel/colors/font_outline_color = Color(0.00392157, 0.0862745, 0.152941, 1)
 RichTextLabel/constants/outline_size = 8
 RichTextLabel/styles/normal = SubResource("StyleBoxFlat_67umr")
+TimerProgressBar/base_type = &"ProgressBar"
+TimerProgressBar/styles/fill = SubResource("StyleBoxFlat_00w47")
+WarningProgressBar/base_type = &"ProgressBar"
+WarningProgressBar/styles/fill = SubResource("StyleBoxFlat_gh53c")

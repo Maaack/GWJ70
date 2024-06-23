@@ -28,11 +28,13 @@ enum UIStates{
 @export var audio_stream : AudioStream :
 	set(value):
 		audio_stream = value
+		if not audio_stream : 
+			_stream_length = 0.0
+			return
 		_stream_length = audio_stream.get_length()
 		if _stream_length == 0: return
-		if audio_stream:
-			if current_state == UIStates.DISABLED:
-				current_state = UIStates.STOPPED
+		if current_state == UIStates.DISABLED:
+			current_state = UIStates.STOPPED
 		if is_inside_tree():
 			$AudioStreamPlayer.stream = audio_stream
 @export var start_delay : float = 0.0

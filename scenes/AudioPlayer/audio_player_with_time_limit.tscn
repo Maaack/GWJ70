@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ce0vj1kbrojpq"]
+
+[ext_resource type="PackedScene" uid="uid://bbh4cgmuvmslu" path="res://scenes/AudioPlayer/audio_player.tscn" id="1_bptx1"]
+[ext_resource type="PackedScene" uid="uid://5p0rvubta6hh" path="res://scenes/TimeProgressBar/time_progress_bar.tscn" id="2_0k7um"]
+[ext_resource type="Script" path="res://scenes/AudioPlayer/audio_player_with_time_limit.gd" id="2_o8yg5"]
+
+[node name="AudioPlayerWithTimeLimit" instance=ExtResource("1_bptx1")]
+script = ExtResource("2_o8yg5")
+current_state = 0
+
+[node name="TimeProgressBar" parent="MarginContainer/VBoxContainer" index="2" instance=ExtResource("2_0k7um")]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(300, 16)
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 4
+time = 180.0
+warning_time_left = 60.0
+normal_theme_variation = &"TimerProgressBar"
+warning_theme_variation = &"WarningProgressBar"
+
+[connection signal="timed_out" from="MarginContainer/VBoxContainer/TimeProgressBar" to="." method="_on_time_progress_bar_timed_out"]
