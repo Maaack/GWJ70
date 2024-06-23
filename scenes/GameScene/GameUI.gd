@@ -23,6 +23,12 @@ func _refresh_user():
 func _ready():
 	InGameMenuController.scene_tree = get_tree()
 	_refresh_user()
+	var has_seen_intro = Config.get_config(AppSettings.GAME_SECTION, &"IntroSeen", false)
+	if has_seen_intro:
+		$IntroContainer.hide()
+
+func intro_seen():
+	Config.set_config(AppSettings.GAME_SECTION, &"IntroSeen", true)
 
 func _get_number_suffix(number : int) -> String:
 	if number == 1:
