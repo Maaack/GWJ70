@@ -1,8 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://ckysjmc3dymx8"]
+[gd_scene load_steps=21 format=3 uid="uid://ckysjmc3dymx8"]
 
 [ext_resource type="PackedScene" uid="uid://biuquh06gs01r" path="res://scenes/Menus/MainMenu/MainMenu.tscn" id="1_770o8"]
 [ext_resource type="Script" path="res://scenes/Menus/MainMenu/MainMenuWithAnimations.gd" id="2_na30h"]
 [ext_resource type="AudioStream" uid="uid://xsbgd1a438rx" path="res://assets/music/Maaack - Campfire Tales - Music 1b (loopable).ogg" id="3_aihy8"]
+[ext_resource type="AudioStream" uid="uid://c5nq7o1qjkmnr" path="res://assets/sfx/Maaack - Campfire Tales - Ambience 1b (loopable).ogg" id="4_4u2q0"]
+[ext_resource type="Material" uid="uid://dvdn8lqt167bi" path="res://scenes/GameScene/palette_shader_material.tres" id="4_xynk0"]
+[ext_resource type="Script" path="res://scenes/GameScene/ConfigurableSubViewport.gd" id="5_rwd1s"]
+[ext_resource type="PackedScene" uid="uid://bbf0rcvmwrtg8" path="res://scenes/GameScene/game_world.tscn" id="6_iplls"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "Intro"
@@ -364,17 +368,65 @@ parameters/conditions/intro_done = false
 [node name="BackgroundMusicPlayer" parent="." index="3"]
 stream = ExtResource("3_aihy8")
 
-[node name="VersionNameLabel" parent="." index="5"]
+[node name="AmbienceStreamPlayer" type="AudioStreamPlayer" parent="." index="4"]
+stream = ExtResource("4_4u2q0")
+volume_db = -20.0
+autoplay = true
+bus = &"SFX"
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="." index="5"]
+material = ExtResource("4_xynk0")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="ConfigurableSubViewport" type="SubViewport" parent="ViewportContainer" index="0"]
+handle_input_locally = false
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+script = ExtResource("5_rwd1s")
+
+[node name="GameWorld" parent="ViewportContainer/ConfigurableSubViewport" index="0" instance=ExtResource("6_iplls")]
+second_camera = true
+
+[node name="VersionNameLabel" parent="." index="7"]
 modulate = Color(1, 1, 1, 0)
+anchors_preset = 2
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = 0.0
+offset_top = -28.0
+offset_right = 88.0
+offset_bottom = 0.0
+grow_horizontal = 1
+
+[node name="TitlesMargin" parent="MenuContainer/VBoxContainer" index="0"]
+theme_override_constants/margin_right = 64
 
 [node name="Title" parent="MenuContainer/VBoxContainer/TitlesMargin/TitlesContainer" index="0"]
 modulate = Color(1, 1, 1, 0)
+theme_override_colors/font_color = Color(0.929412, 0.921569, 0.627451, 1)
+theme_override_font_sizes/font_size = 64
 text = "Lore of the Wild"
+horizontal_alignment = 2
 
 [node name="SubTitle" parent="MenuContainer/VBoxContainer/TitlesMargin/TitlesContainer" index="1"]
 modulate = Color(1, 1, 1, 0)
 text = "GWJ #70 Edition"
+horizontal_alignment = 2
+
+[node name="MenuMargin" parent="MenuContainer/VBoxContainer" index="1"]
+theme_override_constants/margin_right = 128
+theme_override_constants/margin_bottom = 128
 
 [node name="MenuButtons" parent="MenuContainer/VBoxContainer/MenuMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
+size_flags_horizontal = 8
+alignment = 2
 lock = true

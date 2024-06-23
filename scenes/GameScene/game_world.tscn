@@ -1,5 +1,6 @@
-[gd_scene load_steps=18 format=3 uid="uid://bbf0rcvmwrtg8"]
+[gd_scene load_steps=19 format=3 uid="uid://bbf0rcvmwrtg8"]
 
+[ext_resource type="Script" path="res://scenes/GameScene/game_world.gd" id="1_sffc5"]
 [ext_resource type="ArrayMesh" path="res://assets/scenes/RocksMesh.tres" id="4_udwlp"]
 [ext_resource type="ArrayMesh" path="res://assets/scenes/WoodMesh.tres" id="5_djn6h"]
 [ext_resource type="ArrayMesh" uid="uid://bw428gon1m2yn" path="res://assets/objects/KenneyAssets/tree.obj" id="7_p125f"]
@@ -85,10 +86,14 @@ size = Vector2(64, 64)
 albedo_color = Color(0.631373, 0.52549, 0.619608, 1)
 
 [node name="GameWorld" type="Node3D"]
+script = ExtResource("1_sffc5")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.855048, 0.518549, 0, -0.518549, 0.855048, 0.440744, -0.591421, 0.434907)
 current = true
+
+[node name="Camera3D2" type="Camera3D" parent="."]
+transform = Transform3D(0.997827, -0.0342335, 0.0562998, 7.77988e-09, 0.854441, 0.519549, -0.0658908, -0.518419, 0.852584, 1.17292, 0.338459, 1.48213)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_kvsx2")
@@ -164,6 +169,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.10564, -1.42469, -1.72245)
 mesh = ExtResource("7_p125f")
 
 [node name="MeshInstance3D13" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.08643, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.08643, -27)
 mesh = SubResource("PlaneMesh_xlj5m")
 surface_material_override/0 = SubResource("ORMMaterial3D_gr42q")
