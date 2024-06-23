@@ -39,6 +39,7 @@ enum UIStates{
 			current_state = UIStates.STOPPED
 		if is_inside_tree():
 			$AudioStreamPlayer.stream = audio_stream
+			_refresh_object_visiblity()
 @export var start_delay : float = 0.0
 
 @export_group("Recording")
