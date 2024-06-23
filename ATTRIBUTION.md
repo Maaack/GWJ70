@@ -3,7 +3,7 @@
 [Marek Belski](https://maaack.itch.io/)  
 
 ### Music and SFX
-Mike  
+[Mike Zimean](https://www.mikezimean.com) 
 
 ### In collaboration with
 Godot Wild Jam Community  
