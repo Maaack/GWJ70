@@ -49,22 +49,14 @@ theme_override_font_sizes/font_size = 32
 placeholder_text = "Title"
 alignment = 1
 
-[node name="Spacer" type="Control" parent="."]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Spacer2" type="Control" parent="."]
-layout_mode = 2
-size_flags_vertical = 3
-
 [node name="InstructionsLabel" type="Label" parent="."]
 layout_mode = 2
 text = "Tell or retell the story in your own words.
 
-Use your microphone. 
-Try to reduce background noise,
-speak clearly, and in English.
-Stories must be less than 3 minutes long.
+Get your microphone ready and quiet background noise.
+Stories must less than 3 minutes long and in English.
+Accents are fine. Creative interpretations are, too.
+Have fun with it!
 
 Press the record button below to begin."
 horizontal_alignment = 2
@@ -82,13 +74,16 @@ layout_mode = 2
 current_state = 2
 recording_enabled = true
 
-[node name="Spacer3" type="Control" parent="."]
+[node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/margin_bottom = 16
 
-[node name="SubmitButton" type="Button" parent="."]
+[node name="SubmitButton" type="Button" parent="MarginContainer2"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+size_flags_vertical = 8
 disabled = true
 text = "Submit Story"
 
@@ -106,7 +101,7 @@ Are you sure you want to go back?"
 [connection signal="pressed" from="GoBackButton" to="." method="_on_go_back_button_pressed"]
 [connection signal="recording_started" from="MarginContainer/AudioPlayer" to="." method="_on_audio_player_recording_started"]
 [connection signal="recording_stopped" from="MarginContainer/AudioPlayer" to="." method="_on_audio_player_recording_stopped"]
-[connection signal="pressed" from="SubmitButton" to="." method="_on_submit_button_pressed"]
+[connection signal="pressed" from="MarginContainer2/SubmitButton" to="." method="_on_submit_button_pressed"]
 [connection signal="url_received" from="GetSubmitURL" to="." method="_on_get_submit_url_url_received"]
 [connection signal="canceled" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_canceled"]
 [connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
