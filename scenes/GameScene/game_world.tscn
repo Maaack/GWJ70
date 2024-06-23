@@ -87,7 +87,7 @@ albedo_color = Color(0.631373, 0.52549, 0.619608, 1)
 [node name="GameWorld" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.855048, 0.518549, 0, -0.518549, 0.855048, 0.329107, -0.664061, 0.397615)
+transform = Transform3D(1, 0, 0, 0, 0.855048, 0.518549, 0, -0.518549, 0.855048, 0.440744, -0.591421, 0.434907)
 current = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
