@@ -1,10 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://bbh4cgmuvmslu"]
+[gd_scene load_steps=15 format=3 uid="uid://bbh4cgmuvmslu"]
 
-[ext_resource type="Texture2D" uid="uid://c0ehfscdtxmk" path="res://assets/images/play-button.png" id="1_60ptm"]
 [ext_resource type="Script" path="res://scenes/AudioPlayer/audio_player.gd" id="1_o0tvw"]
-[ext_resource type="Texture2D" uid="uid://b1qldtncv21wa" path="res://assets/images/pause-button.png" id="2_fly5r"]
-[ext_resource type="Texture2D" uid="uid://b2cfhdoskpksy" path="res://assets/images/plain-square.png" id="3_4lkoe"]
-[ext_resource type="Texture2D" uid="uid://cjgp3g2cxgtu7" path="res://assets/images/plain-circle.png" id="3_pqwm4"]
+[ext_resource type="Texture2D" uid="uid://b0s8rvpswqcwv" path="res://assets/images/plain-circle-light.png" id="2_f6i54"]
+[ext_resource type="Texture2D" uid="uid://xp33k6ixym1d" path="res://assets/images/plain-circle-light-2.png" id="3_lmv4l"]
+[ext_resource type="Texture2D" uid="uid://b4v6gpnr55lo8" path="res://assets/images/plain-circle-dark.png" id="4_rmitp"]
+[ext_resource type="Texture2D" uid="uid://m0ltjstlehyh" path="res://assets/images/play-button-light.png" id="5_qnruh"]
+[ext_resource type="Texture2D" uid="uid://ctms6c7mubfnd" path="res://assets/images/play-button-light-2.png" id="6_6dnlt"]
+[ext_resource type="Texture2D" uid="uid://d0v3fll6g5h3q" path="res://assets/images/play-button-dark.png" id="7_2qt4j"]
+[ext_resource type="Texture2D" uid="uid://bm6iom8da1x8q" path="res://assets/images/pause-button-light.png" id="8_d2kc4"]
+[ext_resource type="Texture2D" uid="uid://b1tuid6vlco5t" path="res://assets/images/pause-button-light-2.png" id="9_odirm"]
+[ext_resource type="Texture2D" uid="uid://bs00wemc3kv7x" path="res://assets/images/pause-button-dark.png" id="10_xa6qg"]
+[ext_resource type="Texture2D" uid="uid://ct14vdbkfol8k" path="res://assets/images/plain-square-light.png" id="11_4bdya"]
+[ext_resource type="Texture2D" uid="uid://e65bb62tschy" path="res://assets/images/plain-square-light-2.png" id="12_tu2ol"]
+[ext_resource type="Texture2D" uid="uid://t38seb73ah8m" path="res://assets/images/plain-square-dark.png" id="13_mtkx2"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_lub6q"]
 
@@ -43,28 +51,36 @@ alignment = 1
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-texture_normal = ExtResource("3_pqwm4")
+texture_normal = ExtResource("2_f6i54")
+texture_hover = ExtResource("3_lmv4l")
+texture_disabled = ExtResource("4_rmitp")
 stretch_mode = 5
 
 [node name="PlayButton" type="TextureButton" parent="MarginContainer/VBoxContainer/AudioPlayerControls"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-texture_normal = ExtResource("1_60ptm")
+texture_normal = ExtResource("5_qnruh")
+texture_hover = ExtResource("6_6dnlt")
+texture_disabled = ExtResource("7_2qt4j")
 stretch_mode = 5
 
 [node name="PauseButton" type="TextureButton" parent="MarginContainer/VBoxContainer/AudioPlayerControls"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-texture_normal = ExtResource("2_fly5r")
+texture_normal = ExtResource("8_d2kc4")
+texture_hover = ExtResource("9_odirm")
+texture_disabled = ExtResource("10_xa6qg")
 stretch_mode = 5
 
 [node name="StopButton" type="TextureButton" parent="MarginContainer/VBoxContainer/AudioPlayerControls"]
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
-texture_normal = ExtResource("3_4lkoe")
+texture_normal = ExtResource("11_4bdya")
+texture_hover = ExtResource("12_tu2ol")
+texture_disabled = ExtResource("13_mtkx2")
 stretch_mode = 5
 
 [node name="AudioProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
