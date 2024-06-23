@@ -1,12 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://b63j2whpssqxh"]
+[gd_scene load_steps=17 format=3 uid="uid://b63j2whpssqxh"]
 
 [ext_resource type="Script" path="res://scenes/GameScene/GameUI.gd" id="1_c3jsp"]
 [ext_resource type="Theme" uid="uid://c5hpy5cti4wvx" path="res://scenes/base_theme.tres" id="1_v5otb"]
 [ext_resource type="Script" path="res://addons/maaacks_game_template/extras/scripts/PauseMenuController.gd" id="4_0ixpy"]
 [ext_resource type="Material" uid="uid://dvdn8lqt167bi" path="res://scenes/GameScene/palette_shader_material.tres" id="5_63av8"]
 [ext_resource type="PackedScene" uid="uid://bfgijk40t2obj" path="res://scenes/Menus/PauseMenu/PauseMenu.tscn" id="5_t6i6f"]
+[ext_resource type="AudioStream" uid="uid://c5nq7o1qjkmnr" path="res://assets/sfx/Maaack - Campfire Tales - Ambience 1b (loopable).ogg" id="6_4l3wd"]
 [ext_resource type="PackedScene" uid="uid://bln7r05amaiqf" path="res://scenes/APIClient/ClientWrappers/get_folklore_user.tscn" id="6_378mr"]
 [ext_resource type="Script" path="res://scenes/GameScene/ConfigurableSubViewport.gd" id="6_w6ckt"]
+[ext_resource type="AudioStream" uid="uid://xsbgd1a438rx" path="res://assets/music/Maaack - Campfire Tales - Music 1b (loopable).ogg" id="6_yowe5"]
 [ext_resource type="PackedScene" uid="uid://be3jge8uh3oxi" path="res://scenes/WaitingUI/waiting_ui.tscn" id="7_croxm"]
 [ext_resource type="PackedScene" uid="uid://5p0rvubta6hh" path="res://scenes/TimeProgressBar/time_progress_bar.tscn" id="7_mo3h3"]
 [ext_resource type="PackedScene" uid="uid://bbf0rcvmwrtg8" path="res://scenes/GameScene/game_world.tscn" id="7_pcre0"]
@@ -32,6 +34,12 @@ script = ExtResource("4_0ixpy")
 pause_menu_packed = ExtResource("5_t6i6f")
 
 [node name="BackgroundMusicPlayer" parent="." instance=ExtResource("7_qgrjs")]
+stream = ExtResource("6_yowe5")
+
+[node name="AmbienceStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_4l3wd")
+autoplay = true
+bus = &"SFX"
 
 [node name="ViewportContainer" type="SubViewportContainer" parent="."]
 material = ExtResource("5_63av8")
@@ -120,4 +128,8 @@ layout_mode = 2
 [connection signal="user_received" from="GetFolkloreUser" to="." method="_on_get_folklore_user_user_received"]
 [connection signal="timed_out" from="Panel/VBoxContainer/RequestProgressBar" to="." method="_on_time_progress_bar_timed_out"]
 [connection signal="folklore_submitted" from="MarginContainer/VBoxContainer/VBoxContainer/ListeningUI" to="." method="_on_listening_ui_folklore_submitted"]
+[connection signal="playback_ended" from="MarginContainer/VBoxContainer/VBoxContainer/ListeningUI" to="." method="_on_listening_ui_playback_ended"]
+[connection signal="playback_started" from="MarginContainer/VBoxContainer/VBoxContainer/ListeningUI" to="." method="_on_listening_ui_playback_started"]
+[connection signal="recording_started" from="MarginContainer/VBoxContainer/VBoxContainer/ListeningUI" to="." method="_on_listening_ui_recording_started"]
+[connection signal="recording_stopped" from="MarginContainer/VBoxContainer/VBoxContainer/ListeningUI" to="." method="_on_listening_ui_recording_stopped"]
 [connection signal="name_updated" from="MarginContainer/VBoxContainer/VBoxContainer/NamingUI" to="." method="_on_naming_ui_name_updated"]

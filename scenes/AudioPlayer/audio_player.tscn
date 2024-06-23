@@ -77,6 +77,7 @@ step = 0.001
 show_percentage = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
 
 [node name="AudioStreamRecorder" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamMicrophone_lub6q")

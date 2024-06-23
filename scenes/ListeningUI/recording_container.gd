@@ -4,6 +4,8 @@ const RECORDING_STREAM_DESTINATION = "user://recording_audio.wav"
 
 signal return_confirmed
 signal folklore_submitted
+signal recording_started
+signal recording_stopped
 
 var story_title : String :
 	set(value):
@@ -50,6 +52,7 @@ func _submit_folklore():
 	$GetSubmitURL.request(_get_title(), parent_file_key)
 
 func _on_audio_player_recording_stopped(audio_stream):
+	recording_stopped.emit()
 	if audio_stream is AudioStreamWAV:
 		_recorded_audio_stream = audio_stream
 		%SubmitButton.disabled = false
@@ -89,3 +92,6 @@ func _on_submit_folklore_folklore_submitted():
 func _on_submit_folklore_request_failed():
 	%SubmitButton.disabled = false
 	%SubmitButton.text = "Try Again"
+
+func _on_audio_player_recording_started():
+	recording_started.emit()

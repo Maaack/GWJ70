@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bt06t2v6h5xn5"]
+[gd_scene load_steps=6 format=3 uid="uid://bt06t2v6h5xn5"]
 
 [ext_resource type="Script" path="res://scenes/ListeningUI/listening_ui.gd" id="1_bsu76"]
 [ext_resource type="PackedScene" uid="uid://bbh4cgmuvmslu" path="res://scenes/AudioPlayer/audio_player.tscn" id="3_h4m3b"]
 [ext_resource type="PackedScene" uid="uid://cbv0uuuwmm5j5" path="res://scenes/ListeningUI/recording_container.tscn" id="3_iidm0"]
 [ext_resource type="PackedScene" uid="uid://vsylh228amtl" path="res://scenes/ListeningUI/past_folklore_controller.tscn" id="4_ks25v"]
+[ext_resource type="AudioStream" uid="uid://bdtwvun5773bp" path="res://assets/music/Maaack - Campfire Tales - Music 2b (3 min).mp3" id="5_vhdhq"]
 
 [node name="ListeningUI" type="Control"]
 layout_mode = 3
@@ -13,6 +14,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bsu76")
+music_volume_db = -15.0
 
 [node name="ListeningContainer" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
@@ -69,6 +71,7 @@ bbcode_enabled = true
 [node name="AudioPlayer" parent="ListeningContainer/HBoxContainer/VBoxContainer2" instance=ExtResource("3_h4m3b")]
 unique_name_in_owner = true
 layout_mode = 2
+start_delay = 3.0
 
 [node name="PassOnButton" type="Button" parent="ListeningContainer"]
 unique_name_in_owner = true
@@ -85,6 +88,10 @@ layout_mode = 1
 buttons_container = NodePath("../ListeningContainer/HBoxContainer/VBoxContainer/PastFolkloreContainer")
 slots_available = 3
 
+[node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_vhdhq")
+bus = &"Music"
+
 [connection signal="playback_completed" from="ListeningContainer/HBoxContainer/VBoxContainer2/AudioPlayer" to="." method="_on_audio_player_playback_completed"]
 [connection signal="playback_started" from="ListeningContainer/HBoxContainer/VBoxContainer2/AudioPlayer" to="." method="_on_audio_player_playback_started"]
 [connection signal="playback_stopped" from="ListeningContainer/HBoxContainer/VBoxContainer2/AudioPlayer" to="." method="_on_audio_player_playback_stopped"]
@@ -92,5 +99,7 @@ slots_available = 3
 [connection signal="pressed" from="ListeningContainer/PassOnButton" to="." method="_on_pass_on_button_pressed"]
 [connection signal="tree_exiting" from="ListeningContainer/PassOnButton" to="." method="_on_pass_on_button_tree_exiting"]
 [connection signal="folklore_submitted" from="RecordingContainer" to="." method="_on_recording_container_folklore_submitted"]
+[connection signal="recording_started" from="RecordingContainer" to="." method="_on_recording_container_recording_started"]
+[connection signal="recording_stopped" from="RecordingContainer" to="." method="_on_recording_container_recording_stopped"]
 [connection signal="return_confirmed" from="RecordingContainer" to="." method="_on_recording_container_return_confirmed"]
 [connection signal="folklore_queued" from="PastFolkloreController" to="." method="_on_past_folklore_controller_folklore_queued"]

@@ -6,6 +6,10 @@ const UPLOADING_STATUS = "Uploading"
 const INTRODUCED_STATUS = "Introduced"
 const USER_STATUS_STRING = "You are in the %s generation. You are currently %s.\n"
 
+const LOWEST_BG_MUSIC_VOLUME = -60.0
+const MID_AMBIENCE_MUSIC_VOLUME = -15.0
+const LOWEST_AMBIENCE_MUSIC_VOLUME = -30.0
+
 var _user_status : String
 var _user_folklore : Array
 
@@ -59,6 +63,9 @@ func _unhandled_key_input(event):
 		Config.erase_section(AppSettings.GAME_SECTION)
 
 func _on_listening_ui_folklore_submitted():
+	var tween = create_tween()
+	tween.tween_property($BackgroundMusicPlayer, "volume_db", 0, 3)
+	tween.parallel().tween_property($AmbienceStreamPlayer, "volume_db", 0, 3)
 	%ListeningUI.hide()
 	_refresh_user()
 
@@ -70,3 +77,20 @@ func _on_time_progress_bar_timed_out():
 		label_text += " (%d)" % _connect_attempts
 	%UserStatusLabel.text = label_text
 
+func _on_listening_ui_playback_started():
+	var tween = create_tween()
+	tween.tween_property($BackgroundMusicPlayer, "volume_db", -60, 3)
+	tween.parallel().tween_property($AmbienceStreamPlayer, "volume_db", MID_AMBIENCE_MUSIC_VOLUME, 3)
+
+func _on_listening_ui_playback_ended():
+	var tween = create_tween()
+	tween.tween_property($BackgroundMusicPlayer, "volume_db", 0, 3)
+	tween.parallel().tween_property($AmbienceStreamPlayer, "volume_db", 0, 3)
+
+func _on_listening_ui_recording_started():
+	var tween = create_tween()
+	tween.tween_property($AmbienceStreamPlayer, "volume_db", LOWEST_AMBIENCE_MUSIC_VOLUME, 1)
+
+func _on_listening_ui_recording_stopped():
+	var tween = create_tween()
+	tween.tween_property($AmbienceStreamPlayer, "volume_db", MID_AMBIENCE_MUSIC_VOLUME, 1)

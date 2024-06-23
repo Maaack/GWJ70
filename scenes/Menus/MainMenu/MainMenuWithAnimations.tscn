@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://ckysjmc3dymx8"]
+[gd_scene load_steps=17 format=3 uid="uid://ckysjmc3dymx8"]
 
 [ext_resource type="PackedScene" uid="uid://biuquh06gs01r" path="res://scenes/Menus/MainMenu/MainMenu.tscn" id="1_770o8"]
 [ext_resource type="Script" path="res://scenes/Menus/MainMenu/MainMenuWithAnimations.gd" id="2_na30h"]
+[ext_resource type="AudioStream" uid="uid://xsbgd1a438rx" path="res://assets/music/Maaack - Campfire Tales - Music 1b (loopable).ogg" id="3_aihy8"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "Intro"
@@ -359,6 +360,9 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_vikuh")
 anim_player = NodePath("../MenuAnimationPlayer")
 parameters/conditions/intro_done = false
+
+[node name="BackgroundMusicPlayer" parent="." index="3"]
+stream = ExtResource("3_aihy8")
 
 [node name="VersionNameLabel" parent="." index="5"]
 modulate = Color(1, 1, 1, 0)

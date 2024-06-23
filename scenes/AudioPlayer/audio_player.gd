@@ -35,6 +35,7 @@ enum UIStates{
 				current_state = UIStates.STOPPED
 		if is_inside_tree():
 			$AudioStreamPlayer.stream = audio_stream
+@export var start_delay : float = 0.0
 
 @export_group("Recording")
 @export var recording_enabled : bool = false
@@ -116,8 +117,11 @@ func play():
 		if audio_stream_player.stream_paused:
 			audio_stream_player.stream_paused = false
 		else:
+			playback_started.emit()
+			if start_delay > 0.0:
+				await(get_tree().create_timer(start_delay).timeout)
+				if current_state != UIStates.PLAYING: return
 			audio_stream_player.play()
-		playback_started.emit()
 
 func _completed():
 	_hide_stop_button = false
