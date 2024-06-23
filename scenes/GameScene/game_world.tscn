@@ -1,8 +1,5 @@
-[gd_scene load_steps=20 format=3 uid="uid://bbf0rcvmwrtg8"]
+[gd_scene load_steps=18 format=3 uid="uid://bbf0rcvmwrtg8"]
 
-[ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="1_yrv0s"]
-[ext_resource type="Resource" path="res://scenes/GameScene/hterrain/data.hterrain" id="2_iec4v"]
-[ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="3_7o7em"]
 [ext_resource type="ArrayMesh" path="res://assets/scenes/RocksMesh.tres" id="4_udwlp"]
 [ext_resource type="ArrayMesh" path="res://assets/scenes/WoodMesh.tres" id="5_djn6h"]
 [ext_resource type="ArrayMesh" uid="uid://bw428gon1m2yn" path="res://assets/objects/KenneyAssets/tree.obj" id="7_p125f"]
@@ -17,11 +14,6 @@ sky_material = SubResource("ProceduralSkyMaterial_nitks")
 background_mode = 2
 background_energy_multiplier = 0.1
 sky = SubResource("Sky_u200v")
-
-[sub_resource type="Resource" id="Resource_bqkyu"]
-script = ExtResource("3_7o7em")
-mode = 0
-textures = [[], []]
 
 [sub_resource type="Animation" id="Animation_gkjp0"]
 resource_name = "Fire"
@@ -86,6 +78,12 @@ albedo_texture = ExtResource("10_vpwrc")
 material = SubResource("StandardMaterial3D_pobaw")
 size = Vector2(0.1, 0.1)
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_xlj5m"]
+size = Vector2(64, 64)
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_gr42q"]
+albedo_color = Color(0.631373, 0.52549, 0.619608, 1)
+
 [node name="GameWorld" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -94,26 +92,6 @@ current = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_kvsx2")
-
-[node name="HTerrain" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, -64)
-script = ExtResource("1_yrv0s")
-map_scale = Vector3(0.25, 1, 0.25)
-_terrain_data = ExtResource("2_iec4v")
-chunk_size = 32
-collision_enabled = true
-collision_layer = 1
-collision_mask = 1
-shader_type = "Classic4Lite"
-custom_shader = null
-custom_globalmap_shader = null
-texture_set = SubResource("Resource_bqkyu")
-render_layers = 1
-cast_shadow = 1
-shader_params/u_ground_uv_scale = 20
-shader_params/u_depth_blending = true
-shader_params/u_triplanar = null
-shader_params/u_tile_reduction = null
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
@@ -184,3 +162,8 @@ mesh = ExtResource("7_p125f")
 [node name="MeshInstance3D8" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.10564, -1.42469, -1.72245)
 mesh = ExtResource("7_p125f")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.08643, 0)
+mesh = SubResource("PlaneMesh_xlj5m")
+surface_material_override/0 = SubResource("ORMMaterial3D_gr42q")
