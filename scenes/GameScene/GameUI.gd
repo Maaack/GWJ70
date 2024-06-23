@@ -4,6 +4,7 @@ const WAITING_STATUS = "Waiting"
 const LISTENING_STATUS = "Listening"
 const UPLOADING_STATUS = "Uploading"
 const INTRODUCED_STATUS = "Introduced"
+const USER_STATUS_STRING = "You are in the %s generation. You are currently %s.\n"
 
 var _user_status : String
 var _user_folklore : Array
@@ -18,7 +19,17 @@ func _ready():
 	InGameMenuController.scene_tree = get_tree()
 	_refresh_user()
 
-func _on_get_folklore_user_user_received(user_status, user_name, folklore_accepted, folklore):
+func _get_number_suffix(number : int) -> String:
+	if number == 1:
+		return "st"
+	elif number == 2:
+		return"nd"
+	elif number == 3:
+		return "rd"
+	else:
+		return "th"
+
+func _on_get_folklore_user_user_received(user_status, user_name, generation, folklore_accepted, folklore):
 	%RequestProgressBar.stop()
 	_user_status = user_status
 	_user_folklore = folklore
@@ -31,8 +42,9 @@ func _on_get_folklore_user_user_received(user_status, user_name, folklore_accept
 	if not user_name or user_name.is_empty():
 		%NamingUI.show()
 		return
-	
-	%UserStatusLabel.text = "You are currently %s" % _user_status
+	var generation_string = "%d%s" % [generation, _get_number_suffix(generation)]
+
+	%UserStatusLabel.text = USER_STATUS_STRING % [generation_string, _user_status]
 	if _user_status in [INTRODUCED_STATUS, UPLOADING_STATUS, LISTENING_STATUS]:
 		%ListeningUI.show()
 	elif _user_status in [WAITING_STATUS]:
