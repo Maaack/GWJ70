@@ -30,6 +30,8 @@ enum UIStates{
 		audio_stream = value
 		if not audio_stream : 
 			_stream_length = 0.0
+			if not recording_enabled:
+				current_state = UIStates.DISABLED
 			return
 		_stream_length = audio_stream.get_length()
 		if _stream_length == 0: return
@@ -90,6 +92,7 @@ func _refresh_object_visiblity():
 			%StopButton.visible = not _hide_stop_button
 			%StopButton.disabled = false
 			%RecordButton.hide()
+
 func pause():
 	if current_state == UIStates.PLAYING:
 		current_state = UIStates.PAUSED

@@ -77,8 +77,7 @@ func _play_folklore(data_index : int):
 	folklore_queued.emit(data_row[&"file_name"], audio_stream, data_row[&"story_title"], data_row[&"author_name"], data_row[&"transcript"])
 
 func _create_folklore():
-	var audio_stream = AudioStreamWAV.new()
-	folklore_queued.emit("", audio_stream, "", "", "Share your own story with the community of listeners.")
+	folklore_queued.emit("", null, "", "", "Share your own story with the community of listeners.")
 
 func _on_share_custom_button_pressed():
 	_create_folklore()

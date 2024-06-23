@@ -64,6 +64,8 @@ func _on_confirmation_dialog_canceled():
 	pass # Replace with function body.
 
 func _on_confirmation_dialog_confirmed():
+	%AudioPlayer.audio_stream = null
+	%SubmitButton.disabled = true
 	return_confirmed.emit()
 
 func _on_get_submit_url_url_received(upload_url, audio_key):
