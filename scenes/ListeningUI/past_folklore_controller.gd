@@ -3,8 +3,16 @@ extends Node
 signal folklore_queued(file_key : String, audio_stream : AudioStreamWAV, story_title : String, author_name : String, transcript : String)
 
 @export var buttons_container : Container
-@export var slots_available : int
-@export var custom_slot_available : bool = false
+@export var slots_available : int :
+	set(value):
+		slots_available = value
+		if is_inside_tree():
+			_refresh_slots()
+@export var custom_slot_available : bool = false :
+	set(value):
+		custom_slot_available = value
+		if is_inside_tree():
+			_refresh_list()
 
 var data : Array = []
 
@@ -139,7 +147,7 @@ func _get_retold_count() -> int:
 			retold_count += 1
 	return retold_count
 
-func _ready():
+func _refresh_slots():
 	var default_data := Array()
 	for slot_iter in slots_available:
 		default_data.append({})
@@ -148,6 +156,9 @@ func _ready():
 	while len(data) - retold_count < slots_available:
 		data.append({})
 	_refresh_list()
+
+func _ready():
+	_refresh_slots()
 
 func _update_persistent_setting():
 	Config.set_config(AppSettings.GAME_SECTION, "PastFolklore", data)

@@ -17,6 +17,7 @@ var _connect_attempts : int = 0
 
 func _refresh_user():
 	$GetFolkloreUser.request()
+	%RequestProgressBar.show()
 	%RequestProgressBar.start()
 
 func _ready():
@@ -35,6 +36,7 @@ func _get_number_suffix(number : int) -> String:
 
 func _on_get_folklore_user_user_received(user_status, user_name, generation, folklore_accepted, folklore):
 	%RequestProgressBar.stop()
+	%RequestProgressBar.hide()
 	_user_status = user_status
 	_user_folklore = folklore
 	%WaitingUI.folklore_data = _user_folklore
@@ -51,6 +53,7 @@ func _on_get_folklore_user_user_received(user_status, user_name, generation, fol
 	%UserStatusLabel.text = USER_STATUS_STRING % [generation_string, _user_status]
 	if _user_status in [INTRODUCED_STATUS, UPLOADING_STATUS, LISTENING_STATUS]:
 		%ListeningUI.show()
+		%ListeningUI.can_create_custom = folklore_accepted > 0 or generation < 2
 	elif _user_status in [WAITING_STATUS]:
 		%WaitingUI.show()
 
@@ -89,8 +92,8 @@ func _on_listening_ui_playback_ended():
 
 func _on_listening_ui_recording_started():
 	var tween = create_tween()
-	tween.tween_property($AmbienceStreamPlayer, "volume_db", LOWEST_AMBIENCE_MUSIC_VOLUME, 1)
+	tween.tween_property($AmbienceStreamPlayer, "volume_db", LOWEST_AMBIENCE_MUSIC_VOLUME, 0.5)
 
 func _on_listening_ui_recording_stopped():
 	var tween = create_tween()
-	tween.tween_property($AmbienceStreamPlayer, "volume_db", MID_AMBIENCE_MUSIC_VOLUME, 1)
+	tween.tween_property($AmbienceStreamPlayer, "volume_db", MID_AMBIENCE_MUSIC_VOLUME, 0.5)

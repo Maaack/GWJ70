@@ -12,6 +12,10 @@ signal recording_stopped
 @onready var author_name_label : Label = %AuthorNameLabel
 
 @export var music_volume_db : float = 0.0
+@export var can_create_custom : bool = false :
+	set(value):
+		can_create_custom = value
+		$PastFolkloreController.custom_slot_available = can_create_custom
 
 func _on_past_folklore_controller_folklore_queued(file_key : String, audio_stream : AudioStreamWAV, story_title : String, author_name : String, transcript : String):
 	past_folklore_player.stop()
