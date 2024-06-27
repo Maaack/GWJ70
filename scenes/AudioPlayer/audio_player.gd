@@ -9,7 +9,7 @@ signal playback_completed
 signal recording_started
 signal recording_stopped(audio_stream : AudioStreamWAV)
 
-const SAMPLE_RATE = 22050
+const SAMPLE_RATE = 44100
 
 enum UIStates{
 	DISABLED,

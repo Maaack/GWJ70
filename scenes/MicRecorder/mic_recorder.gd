@@ -3,7 +3,7 @@ extends Node
 signal recording_started
 signal recording_stopped(audio_stream : AudioStreamWAV)
 
-const SAMPLE_RATE = 22050
+const SAMPLE_RATE = 44100
 
 @export var audio_bus : StringName = &"Microphone"
 @export var effect_index : int = 0
