@@ -36,4 +36,5 @@ func _input(event):
 
 func _ready():
 	super._ready()
+	$RegisterUser.register_user()
 	animation_state_machine = $MenuAnimationTree.get("parameters/playback")
