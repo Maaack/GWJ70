@@ -9,6 +9,13 @@ option_name = "Input Device"
 option_section = 2
 key = "InputDevice"
 section = "AudioSettings"
+property_type = 4
+default_value = "Default"
 
 [node name="OptionLabel" parent="." index="0"]
 text = "Input Device :"
+
+[node name="OptionButton" parent="." index="1"]
+size_flags_horizontal = 3
+text_overrun_behavior = 1
+clip_text = true

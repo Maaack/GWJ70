@@ -2,7 +2,7 @@
 extends ListOptionControl
 
 func _set_input_device():
-	AudioServer.input_device = _get_setting()
+	AudioServer.input_device = _get_setting(default_value)
 
 func _add_microphone_audio_stream() -> void:
 	var instance = AudioStreamPlayer.new()
@@ -10,11 +10,6 @@ func _add_microphone_audio_stream() -> void:
 	instance.autoplay = true
 	add_child.call_deferred(instance)
 	instance.ready.connect(_set_input_device)
-
-func _check_status():
-	print("1 ", AudioServer.input_device)
-	await(get_tree().create_timer(0.2).timeout)
-	print("2 ", AudioServer.input_device)
 
 func _ready():
 	if ProjectSettings.get_setting("audio/driver/enable_input", false):
@@ -31,3 +26,12 @@ func _on_setting_changed(value):
 	if value >= option_values.size(): return
 	AudioServer.input_device = option_values[value]
 	super._on_setting_changed(value)
+
+func _value_title_map(value : Variant) -> String:
+	if value is String:
+		var trim_right = value.find(".")
+		if trim_right > 0:
+			value = value.left(trim_right)
+		return value.replace("-", " ").replace("_", " ").capitalize()
+	else:
+		return super._value_title_map(value)
