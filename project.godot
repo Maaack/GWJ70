@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Lore of the Wild"
-config/version="0.1.2"
+config/version="0.1.3"
 run/main_scene="res://scenes/Opening/OpeningWithLogo.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 boot_splash/bg_color=Color(0.00392157, 0.0862745, 0.152941, 1)
